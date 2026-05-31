@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI Study Guide — Software Engineering Year 3</title>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0f14;
+  --bg2: #13161e;
+  --bg3: #1a1e29;
+  --card: #1e2333;
+  --card2: #252c3f;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.15);
+  --text: #e8eaf0;
+  --text2: #9ba3bc;
+  --text3: #6b7494;
+  --teal: #2dd4bf;
+  --teal-bg: rgba(45,212,191,0.1);
+  --blue: #60a5fa;
+  --blue-bg: rgba(96,165,250,0.1);
+  --purple: #a78bfa;
+  --purple-bg: rgba(167,139,250,0.1);
+  --amber: #fbbf24;
+  --amber-bg: rgba(251,191,36,0.1);
+  --red: #f87171;
+  --red-bg: rgba(248,113,113,0.1);
+  --green: #4ade80;
+  --green-bg: rgba(74,222,128,0.1);
+  --coral: #fb923c;
+  --coral-bg: rgba(251,146,60,0.1);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 5px;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ===== LAYOUT ===== */
+.layout { display: flex; min-height: 100vh; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-logo {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--teal-bg);
+  border: 1px solid rgba(45,212,191,0.2);
+  border-radius: var(--radius-xs);
+  padding: 4px 10px;
+  margin-bottom: 8px;
+}
+.logo-badge span { font-size: 11px; font-weight: 600; color: var(--teal); letter-spacing: .06em; text-transform: uppercase; }
+.logo-title { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.logo-sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
+
+.nav-section { padding: 12px 12px 4px; }
+.nav-section-label { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; padding: 0 8px; margin-bottom: 4px; }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 13.5px;
+  transition: all .15s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: var(--teal-bg); color: var(--teal); font-weight: 500; }
+.nav-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: .7; }
+.nav-item.active .nav-icon { opacity: 1; }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11.5px;
+  color: var(--text3);
+}
+.progress-track { height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; }
+.progress-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width .4s; }
+
+/* ===== MAIN ===== */
+.main { flex: 1; overflow-y: auto; }
+
+/* ===== PAGES ===== */
+.page { display: none; padding: 32px 40px; max-width: 900px; }
+.page.active { display: block; }
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, var(--bg3) 0%, #1a2040 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(45,212,191,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow { font-size: 11px; font-weight: 600; color: var(--teal); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+.hero-title { font-size: 28px; font-weight: 800; color: var(--text); line-height: 1.2; margin-bottom: 8px; }
+.hero-sub { font-size: 15px; color: var(--text2); max-width: 540px; }
+.hero-stats { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+.hero-stat { text-align: center; }
+.hero-stat-val { font-size: 26px; font-weight: 800; color: var(--teal); }
+.hero-stat-lbl { font-size: 11px; color: var(--text3); }
+
+/* ===== SECTION HEADERS ===== */
+.section-header { margin-bottom: 20px; }
+.section-eyebrow { font-size: 11px; font-weight: 600; color: var(--teal); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+.section-title { font-size: 22px; font-weight: 700; color: var(--text); }
+.section-sub { font-size: 14px; color: var(--text2); margin-top: 4px; }
+
+/* ===== BILINGUAL CARD ===== */
+.bilingual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.bi-en { padding: 20px; border-right: 1px solid var(--border); }
+.bi-ar { padding: 20px; background: var(--bg2); direction: rtl; text-align: right; }
+.bi-lang-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 99px;
+  margin-bottom: 10px;
+}
+.en-tag { background: var(--blue-bg); color: var(--blue); }
+.ar-tag { background: var(--amber-bg); color: var(--amber); }
+.bi-en p, .bi-ar p { font-size: 14px; line-height: 1.75; color: var(--text2); }
+.bi-en strong, .bi-ar strong { color: var(--text); }
+.bi-en em, .bi-ar em { color: var(--teal); font-style: normal; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.card-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+
+/* ===== TERMS ===== */
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+.term-name { font-size: 13px; font-weight: 700; color: var(--teal); font-family: var(--font-mono); margin-bottom: 8px; }
+.term-en { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 8px; }
+.term-ar { font-size: 13px; color: var(--text2); direction: rtl; text-align: right; line-height: 1.65; padding-top: 8px; border-top: 1px solid var(--border); }
+
+/* ===== PRACTICE STEPS ===== */
+.practice {
+  display: flex;
+  gap: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 8px;
+  align-items: flex-start;
+}
+.practice:hover { border-color: var(--border2); }
+.p-num {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--teal-bg);
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.p-content {}
+.p-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.p-en { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 6px; }
+.p-ar { font-size: 13px; color: var(--text3); direction: rtl; text-align: right; line-height: 1.65; border-top: 1px solid var(--border); padding-top: 6px; margin-top: 4px; }
+
+/* ===== ALERTS ===== */
+.alert {
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  border-left: 3px solid;
+}
+.alert-teal { background: var(--teal-bg); border-left-color: var(--teal); color: var(--text); }
+.alert-amber { background: var(--amber-bg); border-left-color: var(--amber); color: var(--text); }
+.alert-red { background: var(--red-bg); border-left-color: var(--red); color: var(--text); }
+.alert-purple { background: var(--purple-bg); border-left-color: var(--purple); color: var(--text); }
+.alert-blue { background: var(--blue-bg); border-left-color: var(--blue); color: var(--text); }
+
+/* ===== RISK CARDS ===== */
+.risk-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.risk-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg3);
+}
+.risk-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--red-bg);
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.risk-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.risk-body { padding: 20px; }
+.scenario-block {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.scenario-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 8px;
+}
+.scenario-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sc-col-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; font-weight: 600; }
+.sc-col-text { font-size: 13px; color: var(--text2); line-height: 1.65; }
+.sc-col-text.ar { direction: rtl; text-align: right; }
+.solution-block {
+  background: var(--green-bg);
+  border: 1px solid rgba(74,222,128,0.15);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-top: 12px;
+}
+.solution-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+.tools-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.tool-pill {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: var(--text2);
+  font-family: var(--font-mono);
+}
+
+/* ===== PIPELINE ===== */
+.pipeline { display: flex; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+.pipe-stage { flex: 1; padding: 16px 12px; border-right: 1px solid var(--border); text-align: center; background: var(--card); transition: background .2s; }
+.pipe-stage:last-child { border-right: none; }
+.pipe-stage:hover { background: var(--card2); }
+.ps-num { width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+.ps-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.ps-desc { font-size: 11px; color: var(--text3); line-height: 1.5; }
+.ps-badge { font-size: 10px; border-radius: 99px; padding: 2px 8px; margin-top: 6px; display: inline-block; font-weight: 600; }
+
+/* ===== RELIABILITY CALC ===== */
+.reliability-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.rel-formula { font-size: 26px; font-weight: 800; color: var(--text); font-family: var(--font-mono); margin-bottom: 6px; }
+.rel-result { font-size: 40px; font-weight: 900; color: var(--red); margin-bottom: 8px; }
+.rel-note { font-size: 13px; color: var(--text3); }
+
+/* ===== QUESTION STYLES ===== */
+.q-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.q-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+.score-display {
+  font-size: 13px;
+  color: var(--text2);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+}
+.score-val { font-weight: 700; color: var(--teal); }
+
+/* FILL IN BLANK */
+.fib-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: border-color .2s;
+}
+.fib-card:hover { border-color: var(--border2); }
+.q-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.q-num { font-size: 11px; font-weight: 700; color: var(--text3); font-family: var(--font-mono); }
+.q-cat { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-radius: 99px; padding: 2px 8px; }
+.cat-def { background: var(--teal-bg); color: var(--teal); }
+.cat-risk { background: var(--red-bg); color: var(--red); }
+.cat-pipe { background: var(--purple-bg); color: var(--purple); }
+.cat-test { background: var(--blue-bg); color: var(--blue); }
+.cat-tool { background: var(--amber-bg); color: var(--amber); }
+.q-text-en { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 8px; }
+.q-text-ar { font-size: 13px; color: var(--text2); direction: rtl; text-align: right; line-height: 1.7; margin-bottom: 14px; padding-top: 8px; border-top: 1px solid var(--border); }
+.blank-input {
+  background: var(--bg3);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 7px 12px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--font-mono);
+  width: 220px;
+  transition: border-color .2s;
+  display: inline-block;
+}
+.blank-input:focus { outline: none; border-color: var(--teal); }
+.blank-input.correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+.blank-input.wrong { border-color: var(--red); background: var(--red-bg); color: var(--red); }
+.check-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--teal-bg);
+  color: var(--teal);
+  border: 1px solid rgba(45,212,191,0.25);
+  border-radius: var(--radius-xs);
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+  margin-left: 8px;
+}
+.check-btn:hover { background: rgba(45,212,191,0.2); }
+.answer-reveal {
+  display: none;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--green-bg);
+  border-radius: var(--radius-xs);
+  font-size: 13px;
+  color: var(--green);
+}
+.answer-reveal.show { display: block; }
+.wrong-reveal {
+  display: none;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--red-bg);
+  border-radius: var(--radius-xs);
+  font-size: 13px;
+  color: var(--red);
+}
+.wrong-reveal.show { display: block; }
+
+/* TRUE/FALSE */
+.tf-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: border-color .2s;
+}
+.tf-buttons { display: flex; gap: 10px; margin-top: 14px; }
+.tf-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border2);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+  background: var(--bg3);
+  color: var(--text2);
+  letter-spacing: .03em;
+}
+.tf-btn:hover { transform: translateY(-1px); }
+.tf-btn.true-btn:hover { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.tf-btn.false-btn:hover { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.tf-btn.selected-true { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.tf-btn.selected-false { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.tf-btn.correct-flash { animation: correctPulse .6s ease; }
+.tf-btn.wrong-flash { animation: wrongPulse .6s ease; }
+@keyframes correctPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+@keyframes wrongPulse { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+.tf-explanation { display: none; margin-top: 12px; padding: 12px 14px; border-radius: var(--radius-xs); font-size: 13px; line-height: 1.65; }
+.tf-explanation.show { display: block; }
+.tf-exp-correct { background: var(--green-bg); color: var(--text); border-left: 3px solid var(--green); }
+.tf-exp-wrong { background: var(--red-bg); color: var(--text); border-left: 3px solid var(--red); }
+
+/* DISCUSSION */
+.disc-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 12px;
+}
+.disc-reveal-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: var(--radius-xs);
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .15s;
+  margin-top: 14px;
+}
+.disc-reveal-btn:hover { background: var(--card2); color: var(--text); }
+.disc-answer {
+  display: none;
+  margin-top: 12px;
+  padding: 16px;
+  background: var(--bg3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--text2);
+}
+.disc-answer.show { display: block; }
+.disc-answer strong { color: var(--text); }
+.disc-answer .ar-part { direction: rtl; text-align: right; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); color: var(--text3); }
+
+/* ===== TOOLS TABLE ===== */
+.tools-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+.tools-table th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid var(--border); }
+.tools-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
+.tools-table tr:last-child td { border-bottom: none; }
+.tools-table tr:hover td { background: var(--bg3); }
+code { font-family: var(--font-mono); font-size: 12px; background: var(--card2); color: var(--teal); padding: 2px 6px; border-radius: 4px; }
+
+/* ===== BADGES ===== */
+.badge { display: inline-block; border-radius: 99px; padding: 2px 9px; font-size: 11px; font-weight: 700; letter-spacing: .04em; }
+.badge-teal { background: var(--teal-bg); color: var(--teal); }
+.badge-red { background: var(--red-bg); color: var(--red); }
+.badge-blue { background: var(--blue-bg); color: var(--blue); }
+.badge-amber { background: var(--amber-bg); color: var(--amber); }
+.badge-purple { background: var(--purple-bg); color: var(--purple); }
+.badge-green { background: var(--green-bg); color: var(--green); }
+
+/* ===== CHEAT SHEET ===== */
+.cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.cheat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+.cheat-title { font-size: 12px; font-weight: 700; color: var(--teal); font-family: var(--font-mono); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .06em; }
+.cheat-body { font-size: 13px; color: var(--text2); line-height: 1.7; }
+.cheat-body .ar { direction: rtl; display: block; color: var(--text3); margin-top: 4px; font-size: 12px; }
+
+.must-know { display: flex; flex-direction: column; gap: 8px; }
+.must-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--red-bg);
+  border: 1px solid rgba(248,113,113,0.15);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+}
+.must-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.must-text { font-size: 13.5px; color: var(--text); line-height: 1.65; }
+.must-ar { font-size: 12px; color: var(--text3); direction: rtl; display: block; margin-top: 4px; }
+
+/* ===== PROGRESS SUMMARY ===== */
+.progress-page {}
+.score-card {
+  background: linear-gradient(135deg, var(--teal-bg) 0%, var(--blue-bg) 100%);
+  border: 1px solid rgba(45,212,191,0.2);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.score-big { font-size: 64px; font-weight: 900; color: var(--teal); }
+.score-label { font-size: 14px; color: var(--text2); }
+.progress-breakdown { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.pb-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; text-align: center; }
+.pb-val { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+.pb-label { font-size: 12px; color: var(--text3); }
+.reset-btn {
+  background: var(--red-bg);
+  border: 1px solid rgba(248,113,113,0.2);
+  color: var(--red);
+  border-radius: var(--radius-sm);
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.reset-btn:hover { background: rgba(248,113,113,0.2); }
+
+/* ===== MOBILE HEADER ===== */
+.mobile-header {
+  display: none;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  align-items: center;
+  gap: 12px;
+}
+.hamburger { background: none; border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 6px 10px; color: var(--text); cursor: pointer; font-size: 16px; }
+.mobile-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 200; }
+.mobile-overlay.show { display: block; }
+.sidebar.mobile-open { transform: translateX(0) !important; z-index: 300; }
+
+@media (max-width: 900px) {
+  .grid2, .grid3, .bilingual, .scenario-grid, .cheat-grid, .progress-breakdown { grid-template-columns: 1fr; }
+  .bi-en { border-right: none; border-bottom: 1px solid var(--border); }
+  .pipeline { flex-direction: column; }
+  .pipe-stage { border-right: none; border-bottom: 1px solid var(--border); }
+  .pipe-stage:last-child { border-bottom: none; }
+}
+@media (max-width: 768px) {
+  .layout { flex-direction: column; }
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform .3s;
+    z-index: 300;
+    width: 280px;
+  }
+  .main { width: 100%; }
+  .mobile-header { display: flex; }
+  .page { padding: 20px 16px; }
+  .hero { padding: 24px 20px; }
+  .hero-title { font-size: 22px; }
+}
+
+/* ===== ANIMATIONS ===== */
+.page.active { animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<div class="mobile-overlay id="overlay" onclick="closeSidebar()"></div>
+
+<div class="layout">
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-badge"><span>SE Year 3</span></div>
+    <div class="logo-title">CI Study Guide</div>
+    <div class="logo-sub">Continuous Integration — Final Exam</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Material</div>
+    <button class="nav-item active" onclick="showPage('home', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      Overview
+    </button>
+    <button class="nav-item" onclick="showPage('ch1', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      Chapter 1 — Intro CI
+    </button>
+    <button class="nav-item" onclick="showPage('ch2', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      Chapter 2 — Risks
+    </button>
+    <button class="nav-item" onclick="showPage('ch3', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+      Chapter 3 — Pipeline
+    </button>
+    <button class="nav-item" onclick="showPage('ch4', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+      Chapter 4 — Testing
+    </button>
+    <button class="nav-item" onclick="showPage('cheat', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      Cheat Sheet
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Practice — 50 Questions</div>
+    <button class="nav-item" onclick="showPage('fib', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+      Fill in the Blanks (20Q)
+    </button>
+    <button class="nav-item" onclick="showPage('tf', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+      True / False (15Q)
+    </button>
+    <button class="nav-item" onclick="showPage('disc', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      Discussion (15Q)
+    </button>
+    <button class="nav-item" onclick="showPage('progress', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      My Progress
+    </button>
+  </div>
+
+  <div class="sidebar-footer">
+    <div>Score: <span id="sidebar-score" style="color:var(--teal);font-weight:700">0</span> / 35 answered</div>
+    <div class="progress-track"><div class="progress-fill" id="global-progress" style="width:0%"></div></div>
+  </div>
+</aside>
+
+<!-- MOBILE HEADER -->
+<div class="mobile-header">
+  <button class="hamburger" onclick="openSidebar()">☰</button>
+  <span class="mobile-title">CI Study Guide</span>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- ==================== HOME ==================== -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-eyebrow">Software Engineering · Year 3</div>
+    <div class="hero-title">Continuous Integration<br>Final Exam Guide</div>
+    <div class="hero-sub">Complete bilingual study material (EN/AR) with 50 exam-ready practice questions covering all chapters.</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-val">4</div><div class="hero-stat-lbl">Chapters</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">7</div><div class="hero-stat-lbl">CI Practices</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">4</div><div class="hero-stat-lbl">Core Risks</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">50</div><div class="hero-stat-lbl">Exam Questions</div></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><span style="color:var(--teal)">●</span> Chapter 1 — Intro to CI</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7">Key terms (Build, Private Build, Continuous...), 7 core practices every developer must follow, and the 5 values CI provides to a project team.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span style="color:var(--red)">●</span> Chapter 2 — Reducing Risks</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7">4 major risks: no deployable software, late defect discovery, no visibility, low quality. Each with real scenarios, characters, solutions, and tools.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span style="color:var(--purple)">●</span> Chapter 3 — Deployment Pipeline</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7">Pipeline stages, the balancing act between confidence and feedback speed, system reliability math (0.9³ = 73%), and 5 transformation principles.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span style="color:var(--blue)">●</span> Chapter 4 — Testing Automation</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7">Unit vs Component vs System tests, the developer's perspective limitation, and the automation trade-off equation.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-amber">
+    <strong>⚡ Exam tip:</strong> Questions will be Fill in the Blanks, True/False, and Discussion. Focus on the 7 practices, 4 risks, tool names (CruiseControl, JUnit, Checkstyle, JDepend, Doxygen, Simian), and the reliability math formula.
+    <br><strong>نصيحة:</strong> الاختبار سيحتوي على ملء الفراغات، صح وخطأ، وأسئلة نقاش. ركّز على الممارسات السبع والمخاطر الأربع وأسماء الأدوات ومعادلة الموثوقية.
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 1 ==================== -->
+<div id="page-ch1" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Chapter 1</div>
+    <div class="section-title">Introducing Continuous Integration</div>
+    <div class="section-sub">المصطلحات الأساسية · الممارسات السبع · قيمة CI</div>
+  </div>
+
+  <div class="bilingual">
+    <div class="bi-en">
+      <div class="bi-lang-tag en-tag">English Definition</div>
+      <p><strong>Continuous Integration (CI)</strong> is a software development practice where members of a team integrate their work <em>frequently</em> — usually each person integrates at least daily — leading to multiple integrations per day. Each integration is verified by an <em>automated build</em> (including test) to detect integration errors as quickly as possible.</p>
+    </div>
+    <div class="bi-ar">
+      <div class="bi-lang-tag ar-tag">التعريف بالعربي</div>
+      <p><strong>الـ CI</strong> ممارسة تطوير حيث يدمج أعضاء الفريق عملهم <em>بشكل متكرر</em> — عادةً يومياً على الأقل — مما يؤدي لعمليات دمج متعددة يومياً. كل دمج يتم التحقق منه بواسطة <em>بناء آلي</em> يشمل الاختبارات لاكتشاف الأخطاء بأسرع وقت ممكن.</p>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:12px">Key Terms — المصطلحات</h3>
+  <div class="grid2">
+    <div class="term-card">
+      <div class="term-name">build</div>
+      <div class="term-en">A set of activities performed to generate, test, inspect, and deploy software. Not just compilation.</div>
+      <div class="term-ar">مجموعة أنشطة لتوليد واختبار وفحص ونشر البرنامج. وليس فقط الـ compile.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">continuous</div>
+      <div class="term-en">In CI, means <strong>continual</strong> — the CI server constantly polls the VCS for changes and runs the build script when a change is detected.</div>
+      <div class="term-ar">في CI تعني <strong>متواصل</strong> — خادم CI يراقب VCS باستمرار وينفّذ السكريبت عند اكتشاف تغيير. ليس "لا يتوقف".</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">private build</div>
+      <div class="term-en">Running a build <strong>locally</strong> before committing to the VCS, to reduce the chance of breaking the integration build.</div>
+      <div class="term-ar">تشغيل البناء <strong>محلياً</strong> قبل الـ commit لتقليل احتمال كسر بناء التكامل.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">integration build</div>
+      <div class="term-en">Combining components on a <strong>separate dedicated machine</strong> — not a developer's workstation.</div>
+      <div class="term-ar">دمج المكونات على <strong>جهاز منفصل ومخصص</strong> — وليس جهاز المطور.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">release build</div>
+      <div class="term-en">Readies software for release to users. Must include acceptance tests. May include performance tests.</div>
+      <div class="term-ar">يُجهّز البرنامج للإصدار. يشمل acceptance tests وأحياناً performance tests.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">quality</div>
+      <div class="term-en">A <strong>measurable specification</strong>, not perception. Metrics: maintainability, extensibility, security, performance, readability.</div>
+      <div class="term-ar"><strong>مواصفة قابلة للقياس</strong> وليست إدراكاً. المقاييس: الصيانة، التوسع، الأمان، الأداء، القراءة.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">risk</div>
+      <div class="term-en">The potential for a problem to occur. A risk that has been realized is known as a <strong>problem</strong>.</div>
+      <div class="term-ar">احتمال حدوث مشكلة. الخطر الذي تحقق يُسمى <strong>مشكلة</strong>.</div>
+    </div>
+    <div class="term-card">
+      <div class="term-name">inspection</div>
+      <div class="term-en">Analysis of source code for internal quality attributes. Includes static and runtime analysis (automated aspects).</div>
+      <div class="term-ar">تحليل الكود المصدري للسمات الجودة الداخلية. يشمل التحليل الثابت والديناميكي.</div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px;font-weight:700;color:var(--text);margin:20px 0 12px">The 7 CI Practices — الممارسات السبع</h3>
+
+  <div class="practice"><div class="p-num">1</div><div class="p-content"><div class="p-title">Commit Code Frequently — الـ Commit بشكل متكرر</div><div class="p-en">Make small changes. Commit after each task. Don't accumulate large changes — break tasks into smaller work items. The main reason developers don't commit frequently is <strong>project culture</strong> (wanting "perfect" code).</div><div class="p-ar">اعمل تغييرات صغيرة. commit بعد كل مهمة. السبب الرئيسي لعدم الـ commit المتكرر هو <strong>ثقافة المشروع</strong> (الرغبة في كود "مثالي").</div></div></div>
+  <div class="practice"><div class="p-num">2</div><div class="p-content"><div class="p-title">Don't Commit Broken Code — لا تعمل Commit لكود مكسور</div><div class="p-en">Always run a private build that closely resembles the integration build before committing. This is a team culture expectation.</div><div class="p-ar">دائماً شغّل private build يشبه بناء التكامل قبل الـ commit. توقع ثقافي للفريق بأسره.</div></div></div>
+  <div class="practice"><div class="p-num">3</div><div class="p-content"><div class="p-title">Fix Broken Builds Immediately — أصلح البناء المكسور فوراً</div><div class="p-en">A broken build is <strong>anything</strong> preventing success: compile error, failed test, DB problem, failed deployment. Fixing it is the <strong>top project priority</strong>.</div><div class="p-ar">البناء المكسور هو أي شيء يمنع النجاح. إصلاحه هو <strong>أعلى أولوية</strong> في المشروع.</div></div></div>
+  <div class="practice"><div class="p-num">4</div><div class="p-content"><div class="p-title">Write Automated Developer Tests — اكتب اختبارات آلية</div><div class="p-en">Tests must be in an automated framework like <code>JUnit</code> or <code>NUnit</code> (xUnit). Tests cannot be manual — the CI system must be able to run them without human intervention.</div><div class="p-ar">الاختبارات يجب أن تكون بـ framework آلي مثل <code>JUnit</code> أو <code>NUnit</code>. لا يمكن أن تكون يدوية.</div></div></div>
+  <div class="practice"><div class="p-num">5</div><div class="p-content"><div class="p-title">All Tests and Inspections Must Pass — 100% نجاح الاختبارات</div><div class="p-en"><strong>100%</strong> of tests must pass. Code with test failures = broken code. An unscrupulous developer might comment out failing tests — coverage tools help detect this.</div><div class="p-ar"><strong>100%</strong> يجب أن ينجح. الكود الذي يفشل في الاختبارات = كود مكسور. مطور قد يحذف اختباراً فاشلاً — أدوات coverage تساعد في الكشف.</div></div></div>
+  <div class="practice"><div class="p-num">6</div><div class="p-content"><div class="p-title">Run Private Builds — شغّل بناءات خاصة محلياً</div><div class="p-en">Before committing: get latest from VCS, merge your changes, compile, run tests. This ensures what you commit has been verified against everyone else's latest code.</div><div class="p-ar">قبل الـ commit: اجلب أحدث كود من VCS، ادمج تغييراتك، compile، شغّل الاختبارات. يضمن أن ما تُرسله تم التحقق منه.</div></div></div>
+  <div class="practice"><div class="p-num">7</div><div class="p-content"><div class="p-title">Avoid Getting Broken Code — لا تسحب كود مكسور</div><div class="p-en">When the build is broken, <strong>don't check out the latest code</strong>. Use passive feedback mechanisms (lights, sounds) to know build state. Everyone should know the state of the code in VCS.</div><div class="p-ar">عندما البناء مكسور، <strong>لا تسحب آخر كود</strong>. استخدم آليات ملاحظة passive (أضواء، أصوات). الجميع يجب أن يعرف حالة الكود.</div></div></div>
+
+  <h3 style="font-size:16px;font-weight:700;color:var(--text);margin:20px 0 12px">5 Values of CI — قيمة CI</h3>
+  <div class="grid3">
+    <div class="card"><div class="card-title"><span class="badge badge-red">1</span> Reduce Risks</div><p style="font-size:13px;color:var(--text2)">Defects detected when introduced. Health is measurable. Reduce assumptions by using consistent process.<br><span style="direction:rtl;display:block;margin-top:6px;color:var(--text3)">اكتشاف العيوب فور إدخالها. صحة البرنامج قابلة للقياس.</span></p></div>
+    <div class="card"><div class="card-title"><span class="badge badge-teal">2</span> Reduce Repetition</div><p style="font-size:13px;color:var(--text2)">Same ordered process every time. Frees people for higher-value work.<br><span style="direction:rtl;display:block;margin-top:6px;color:var(--text3)">نفس العملية كل مرة. يحرر الوقت للعمل الإبداعي.</span></p></div>
+    <div class="card"><div class="card-title"><span class="badge badge-purple">3</span> Deployable Software</div><p style="font-size:13px;color:var(--text2)">Always have a releasable version. No "big bang" integration at end of project.<br><span style="direction:rtl;display:block;margin-top:6px;color:var(--text3)">دائماً يوجد إصدار جاهز للتسليم في أي وقت.</span></p></div>
+    <div class="card"><div class="card-title"><span class="badge badge-blue">4</span> Better Visibility</div><p style="font-size:13px;color:var(--text2)">Just-in-time info on build status and quality metrics. Notice trends over time.<br><span style="direction:rtl;display:block;margin-top:6px;color:var(--text3)">معلومات آنية عن حالة البناء ومقاييس الجودة.</span></p></div>
+    <div class="card"><div class="card-title"><span class="badge badge-green">5</span> Greater Confidence</div><p style="font-size:13px;color:var(--text2)">Every build verifies behavior and standards. Developers confident making changes.<br><span style="direction:rtl;display:block;margin-top:6px;color:var(--text3)">كل بناء يتحقق من السلوك والمعايير. ثقة أعلى بالتغييرات.</span></p></div>
+  </div>
+
+  <div class="alert alert-amber"><strong>⚠️ Critical Distinction:</strong> <strong>Continuous Compilation ≠ Continuous Integration.</strong> Setting up CruiseControl to only compile is better than nothing, but it does NOT provide full CI benefits. Real CI adds: automated tests, code inspection, automated deployment, DB integration, feedback notifications.<br><br><strong>الفرق الحاسم:</strong> الـ compile فقط ≠ CI كامل. CI الحقيقي يضيف: اختبارات، فحص كود، نشر آلي، تكامل DB، إشعارات.</div>
+</div>
+
+<!-- ==================== CHAPTER 2 ==================== -->
+<div id="page-ch2" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Chapter 2</div>
+    <div class="section-title">Reducing Risks Using CI</div>
+    <div class="section-sub">4 مخاطر رئيسية · سيناريوهات حقيقية · حلول · أدوات</div>
+  </div>
+
+  <div class="alert alert-blue">Each risk follows a fixed template: <strong>Introduction → Scenario (with named characters) → Solution → Tools</strong><br>كل مخاطرة تتبع قالباً ثابتاً: مقدمة → سيناريو (بأسماء حقيقية) → حل → أدوات</div>
+
+  <div class="risk-card">
+    <div class="risk-header"><div class="risk-num">1</div><div class="risk-title">Lack of Deployable Software — غياب برنامج قابل للنشر</div></div>
+    <div class="risk-body">
+      <div class="scenario-block">
+        <div class="scenario-label">Scenario A — "It Works on My Machine" · آدم وجون</div>
+        <div class="scenario-grid">
+          <div><div class="sc-col-label">English</div><div class="sc-col-text">Adam committed source files but forgot to add new files to Subversion. Build fails on the integration server but works on his machine. Root cause: tight coupling between IDE and build process.</div></div>
+          <div><div class="sc-col-label">عربي</div><div class="sc-col-text ar">آدم عمل commit لكن نسي إضافة الملفات الجديدة لـ Subversion. البناء يفشل على الخادم لكن يعمل على جهازه. السبب الجذري: ارتباط وثيق بين IDE والبناء.</div></div>
+        </div>
+      </div>
+      <div class="scenario-block">
+        <div class="scenario-label">Scenario B — Synching with the Database</div>
+        <div class="scenario-grid">
+          <div><div class="sc-col-label">English</div><div class="sc-col-text">DB team doesn't commit scripts to VCS. Developers fear making schema changes. Can't populate test data. Dev and test environments get out of sync.</div></div>
+          <div><div class="sc-col-label">عربي</div><div class="sc-col-text ar">فريق DB لا يضع السكريبتات في VCS. المطورون يخافون تغيير الـ schema. لا يمكن تعبئة بيانات الاختبار. البيئات تتشعب.</div></div>
+        </div>
+      </div>
+      <div class="scenario-block">
+        <div class="scenario-label">Scenario C — The Missing Click · راشيل وجون</div>
+        <div class="scenario-grid">
+          <div><div class="sc-col-label">English</div><div class="sc-col-text">Manual deployment takes 10–15 min. John forgot to select "precompile JSPs" — runtime errors appear. Deployment is a bottleneck depending on one person.</div></div>
+          <div><div class="sc-col-label">عربي</div><div class="sc-col-text ar">النشر اليدوي 10-15 دقيقة يومياً. جون نسي تفعيل خيار — أخطاء runtime. النشر أصبح عنق زجاجة.</div></div>
+        </div>
+      </div>
+      <div class="solution-block">
+        <div class="solution-label">Solution / الحل</div>
+        <div class="scenario-grid">
+          <div class="sc-col-text">Use a <strong>separate integration machine</strong> (CruiseControl). Everything to build goes in VCS — source, DB scripts, triggers, stored procedures. Use Ant/NAnt/Rake scripts. Automate deployment.</div>
+          <div class="sc-col-text ar">جهاز تكامل منفصل. كل ما يلزم للبناء في VCS — كود، سكريبتات DB، triggers، stored procedures. استخدم Ant/NAnt/Rake. أتمتة النشر.</div>
+        </div>
+      </div>
+      <div class="tools-row"><span class="tool-pill">CruiseControl</span><span class="tool-pill">Ant</span><span class="tool-pill">NAnt</span><span class="tool-pill">Rake</span><span class="tool-pill">Subversion</span></div>
+    </div>
+  </div>
+
+  <div class="risk-card">
+    <div class="risk-header"><div class="risk-num">2</div><div class="risk-title">Late Discovery of Defects — اكتشاف متأخر للعيوب</div></div>
+    <div class="risk-body">
+      <div class="scenario-block">
+        <div class="scenario-label">Scenario A — Regression Testing · سالي وكايل</div>
+        <div class="scenario-grid">
+          <div><div class="sc-col-label">English</div><div class="sc-col-text">Sally (Lead) finds a bug that was fixed 2 months ago has returned. Kyle only ran tests for his changes. Old bug came back (regression) undetected.</div></div>
+          <div><div class="sc-col-label">عربي</div><div class="sc-col-text ar">سالي تجد خطأً قديماً عاد. كايل اختبر تغييراته فقط. الخطأ القديم عاد (regression) دون اكتشاف.</div></div>
+        </div>
+      </div>
+      <div class="scenario-block">
+        <div class="scenario-label">Scenario B — Test Coverage · إيفلين ونوح</div>
+        <div class="scenario-grid">
+          <div><div class="sc-col-label">English</div><div class="sc-col-text">Manager asks if Noah ran tests. He says yes. But she never asked: Did you write tests for new code? What % of code is covered? No way to verify without coverage tools.</div></div>
+          <div><div class="sc-col-label">عربي</div><div class="sc-col-text ar">المدير تسأل نوح إن شغّل الاختبارات. يقول نعم. لكنها لا تسأل: هل كتبت اختبارات جديدة؟ ما نسبة التغطية؟</div></div>
+        </div>
+      </div>
+      <div class="solution-block">
+        <div class="solution-label">Solution / الحل</div>
+        <div class="scenario-grid">
+          <div class="sc-col-text">Write unit + component tests in JUnit at all layers. Configure Ant to run ALL tests every build. Add code coverage tool. Run everything continuously on every VCS commit.</div>
+          <div class="sc-col-text ar">اكتب unit + component tests بـ JUnit لجميع الطبقات. هيّئ Ant لتشغيل كل الاختبارات في كل بناء. أضف code coverage. شغّل باستمرار.</div>
+        </div>
+      </div>
+      <div class="tools-row"><span class="tool-pill">JUnit</span><span class="tool-pill">NUnit</span><span class="tool-pill">Ant</span><span class="tool-pill">Code Coverage Tools</span></div>
+    </div>
+  </div>
+
+  <div class="risk-card">
+    <div class="risk-header"><div class="risk-num">3</div><div class="risk-title">Lack of Project Visibility — غياب رؤية المشروع</div></div>
+    <div class="risk-body">
+      <div class="scenario-block">
+        <div class="scenario-label">Scenario A — "Did You Get the Memo?" · إيفلين ونوح</div>
+        <div class="scenario-grid">
+          <div><div class="sc-col-label">English</div><div class="sc-col-text">Noah (Tester) waiting for the build to be deployed to QA. Evelyn tells him it was deployed 2 days ago. He had no idea — was out of office. Manual communication fails.</div></div>
+          <div><div class="sc-col-label">عربي</div><div class="sc-col-text ar">نوح ينتظر نشر البناء للـ QA. إيفلين تخبره أنه نُشر منذ يومين. لم يعلم — كان خارج المكتب. التواصل اليدوي يفشل.</div></div>
+        </div>
+      </div>
+      <div class="scenario-block">
+        <div class="scenario-label">Scenario B — Inability to Visualize · مايلي وآلي</div>
+        <div class="scenario-grid">
+          <div><div class="sc-col-label">English</div><div class="sc-col-text">Maile (new dev) asks to see UML diagrams. Allie says "we don't do UML, just read the code." No auto-generated diagrams = new developers can't grasp the architecture quickly.</div></div>
+          <div><div class="sc-col-label">عربي</div><div class="sc-col-text ar">مايلي (مطورة جديدة) تطلب مخططات UML. آلي ترفض. بدون مخططات آلية، المطورون الجدد لا يفهمون المعمارية بسرعة.</div></div>
+        </div>
+      </div>
+      <div class="solution-block">
+        <div class="solution-label">Solution / الحل</div>
+        <div class="scenario-grid">
+          <div class="sc-col-text">Configure CruiseControl to send automatic <strong>email + SMS</strong> when build fails. Install automated agents to check server availability. Use <strong>Doxygen</strong> to auto-generate UML diagrams from source code — always up to date.</div>
+          <div class="sc-col-text ar">هيّئ CruiseControl لإرسال <strong>إيميل + SMS</strong> تلقائياً عند فشل البناء. استخدم <strong>Doxygen</strong> لتوليد مخططات UML تلقائياً من الكود — دائماً محدّثة.</div>
+        </div>
+      </div>
+      <div class="tools-row"><span class="tool-pill">CruiseControl (email/SMS)</span><span class="tool-pill">Doxygen (UML)</span></div>
+    </div>
+  </div>
+
+  <div class="risk-card">
+    <div class="risk-header"><div class="risk-num">4</div><div class="risk-title">Low-Quality Software — جودة برمجيات منخفضة</div></div>
+    <div class="risk-body">
+      <div class="alert alert-purple" style="margin-bottom:12px"><strong>Code Smell:</strong> "A symptom that something may be wrong." Potential defects from poor design, non-standard code, or duplication. / عرض يشير لوجود مشكلة محتملة.</div>
+      <div class="scenario-block">
+        <div class="scenario-label">Sub-risk A — Coding Standards · برايان وليندساي</div>
+        <div class="scenario-grid">
+          <div><div class="sc-col-label">Problem/الحل</div><div class="sc-col-text">Lindsay writes in personal style; 30-page doc ignored. → Replace with 1-page annotated class + Checkstyle/PMD in every build. Fail build on violations.</div></div>
+          <div><div class="sc-col-label">عربي</div><div class="sc-col-text ar">ليندساي تكتب بأسلوبها؛ وثيقة 30 صفحة مهملة. → صفحة واحدة + Checkstyle/PMD في كل بناء. فشل البناء عند المخالفة.</div></div>
+        </div>
+      </div>
+      <div class="scenario-block">
+        <div class="scenario-label">Sub-risk B — Architectural Adherence · جين ومارك وتشارلي</div>
+        <div class="scenario-grid">
+          <div><div class="sc-col-label">Problem/الحل</div><div class="sc-col-text">Developer calls data layer from controller — violates "data layer must never talk to business layer." → JDepend/NDepend in every integration build to detect violations automatically.</div></div>
+          <div><div class="sc-col-label">عربي</div><div class="sc-col-text ar">مطور يستدعي data layer من controller — مخالفة معمارية. → JDepend/NDepend في كل بناء لاكتشاف المخالفات.</div></div>
+        </div>
+      </div>
+      <div class="scenario-block">
+        <div class="scenario-label">Sub-risk C — Duplicate Code · ماري وآدم</div>
+        <div class="scenario-grid">
+          <div><div class="sc-col-label">Problem/الحل</div><div class="sc-col-text">Copy-paste habit. One study: 45% duplication in an entire company. → Use Simian or PMD CPD. Refactor to single shared method. Run continuously.</div></div>
+          <div><div class="sc-col-label">عربي</div><div class="sc-col-text ar">عادة copy-paste. دراسة: 45% تكرار في شركة كاملة. → Simian أو PMD CPD. إعادة هيكلة. تشغيل مستمر.</div></div>
+        </div>
+      </div>
+      <div class="tools-row"><span class="tool-pill">Checkstyle</span><span class="tool-pill">PMD</span><span class="tool-pill">JDepend</span><span class="tool-pill">NDepend</span><span class="tool-pill">Simian</span><span class="tool-pill">PMD CPD</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHAPTER 3 ==================== -->
+<div id="page-ch3" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Chapter 3</div>
+    <div class="section-title">The Deployment Pipeline</div>
+    <div class="section-sub">مراحل النشر · الموازنة · موثوقية النظام · المبادئ الخمسة</div>
+  </div>
+
+  <div class="bilingual">
+    <div class="bi-en"><div class="bi-lang-tag en-tag">Definition</div><p>A deployment pipeline is an <em>automated manifestation</em> of your process for getting software from version control into the hands of your users. It models the process and allows you to see and control the progress of each change — from commit to production.</p></div>
+    <div class="bi-ar"><div class="bi-lang-tag ar-tag">تعريف</div><p>الـ Deployment Pipeline هو <em>تجسيد آلي</em> لعملية إيصال البرنامج من نظام التحكم بالإصدارات إلى يد المستخدمين. يُنمذج العملية ويتيح رؤية ومراقبة كل تغيير — من الـ commit حتى الإنتاج.</p></div>
+  </div>
+
+  <h3 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px">Pipeline Stages — مراحل الـ Pipeline</h3>
+  <div class="pipeline">
+    <div class="pipe-stage"><div class="ps-num" style="background:var(--teal-bg);color:var(--teal)">1</div><div class="ps-name">Commit Stage</div><div class="ps-desc">Compile · Unit tests · Static analysis</div><div class="ps-badge" style="background:var(--teal-bg);color:var(--teal)">Fastest feedback</div></div>
+    <div class="pipe-stage"><div class="ps-num" style="background:var(--purple-bg);color:var(--purple)">2</div><div class="ps-name">Acceptance Test Stage</div><div class="ps-desc">Automated acceptance tests · Full system</div><div class="ps-badge" style="background:var(--purple-bg);color:var(--purple)">More confidence</div></div>
+    <div class="pipe-stage"><div class="ps-num" style="background:var(--amber-bg);color:var(--amber)">3</div><div class="ps-name">Manual Testing</div><div class="ps-desc">UAT · Exploratory testing</div><div class="ps-badge" style="background:var(--amber-bg);color:var(--amber)">Human validation</div></div>
+    <div class="pipe-stage"><div class="ps-num" style="background:var(--blue-bg);color:var(--blue)">4</div><div class="ps-name">Production</div><div class="ps-desc">Release to end users</div><div class="ps-badge" style="background:var(--blue-bg);color:var(--blue)">Highest confidence</div></div>
+  </div>
+
+  <div class="alert alert-teal"><strong>The Balancing Act:</strong> The pipeline balances two competing forces: <strong>(1) Increasing Confidence</strong> — later stages give more confidence in production readiness. <strong>(2) Faster Feedback</strong> — earlier stages give faster info on failures. Objective: eliminate unfit release candidates EARLY + get feedback RAPIDLY.<br><br><strong>الموازنة:</strong> (1) زيادة الثقة — مراحل متأخرة. (2) سرعة الملاحظة — مراحل مبكرة. الهدف: القضاء على مرشحي الإصدار الفاشلين مبكراً + الحصول على ملاحظات سريعة.</div>
+
+  <h3 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px">System Reliability Math — رياضيات الموثوقية</h3>
+  <div class="reliability-box">
+    <div class="rel-formula">0.90 × 0.90 × 0.90</div>
+    <div class="rel-result">= 73%</div>
+    <div class="rel-note">3 components × 90% reliable each = only 73% overall system reliability</div>
+  </div>
+  <div class="bilingual">
+    <div class="bi-en"><div class="bi-lang-tag en-tag">Why this matters</div><p>System reliability is a <em>product</em>, not an average. For a system to work, ALL components must work simultaneously. 4 components × 95% = 0.95⁴ ≈ <strong>81.5%</strong>. This is why CI requires 100% test pass — each failing test lowers overall reliability. "True reliability isn't an average; it's a product. It must be built from the lowest possible building block."</p></div>
+    <div class="bi-ar"><div class="bi-lang-tag ar-tag">لماذا هذا مهم</div><p>موثوقية النظام حاصل <em>ضرب</em> وليس متوسطاً. لكي يعمل النظام، جميع المكونات يجب أن تعمل في نفس الوقت. 4 مكونات × 95% = 0.95⁴ ≈ <strong>81.5%</strong>. لهذا CI يطلب 100% نجاح الاختبارات — كل اختبار فاشل يخفض الموثوقية الكلية.</p></div>
+  </div>
+
+  <h3 style="font-size:15px;font-weight:700;color:var(--text);margin:20px 0 12px">5 Transformation Principles — المبادئ الخمسة</h3>
+  <div class="practice"><div class="p-num" style="background:var(--purple-bg);color:var(--purple)">1</div><div class="p-content"><div class="p-title">Establish a Single Source of Truth</div><div class="p-en">Commit everything needed to build and test into version control: source code, DB scripts, config files, build scripts, test data.</div><div class="p-ar">ضع كل ما يلزم للبناء والاختبار في VCS: كود، سكريبتات DB، ملفات config، بيانات اختبار.</div></div></div>
+  <div class="practice"><div class="p-num" style="background:var(--purple-bg);color:var(--purple)">2</div><div class="p-content"><div class="p-title">Automate the Entire Build</div><div class="p-en">One script builds and packages the entire system from scratch. No manual steps. Anyone on any machine gets the same result.</div><div class="p-ar">سكريبت واحد يبني النظام كاملاً من الصفر. لا خطوات يدوية. نفس النتيجة في أي جهاز.</div></div></div>
+  <div class="practice"><div class="p-num" style="background:var(--purple-bg);color:var(--purple)">3</div><div class="p-content"><div class="p-title">Make the Build Self-Testing</div><div class="p-en">Integrate automated unit, component, and regression tests that run with every build. Build fails if any test fails.</div><div class="p-ar">ادمج اختبارات unit وcomponent وregression تعمل مع كل بناء. البناء يفشل إذا فشل أي اختبار.</div></div></div>
+  <div class="practice"><div class="p-num" style="background:var(--purple-bg);color:var(--purple)">4</div><div class="p-content"><div class="p-title">Integrate Continuously</div><div class="p-en">Every developer commits to mainline every day, triggering the automated process. No long-lived branches. Small, frequent integrations.</div><div class="p-ar">كل مطور يعمل commit للـ mainline يومياً. لا branches طويلة. دمجات صغيرة ومتكررة.</div></div></div>
+  <div class="practice"><div class="p-num" style="background:var(--purple-bg);color:var(--purple)">5</div><div class="p-content"><div class="p-title">Automate Inspection and Deployment</div><div class="p-en">Quality checks and delivery to test environments are seamless, automatic pipeline steps — not manual steps someone must remember.</div><div class="p-ar">فحوصات الجودة والتسليم لبيئات الاختبار هي خطوات آلية في الـ pipeline — ليست يدوية.</div></div></div>
+</div>
+
+<!-- ==================== CHAPTER 4 ==================== -->
+<div id="page-ch4" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Chapter 4</div>
+    <div class="section-title">Testing Automation</div>
+    <div class="section-sub">أنواع الاختبارات · قيد المطور · معادلة الأتمتة</div>
+  </div>
+
+  <h3 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px">Test Types — أنواع الاختبارات</h3>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title"><span class="badge badge-teal">Unit Tests</span></div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:8px">Test individual functions/methods. Fast. Written by developers. Tests from the <strong>developer's own perspective</strong>.</p>
+      <p style="font-size:12px;color:var(--text3);direction:rtl;text-align:right">تختبر دوال منفردة. سريعة. وجهة نظر المطور فقط.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-blue">Component Tests</span></div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:8px">Test packages/modules together. Also used to test <strong>database integration</strong> — schema, stored procedures, test data.</p>
+      <p style="font-size:12px;color:var(--text3);direction:rtl;text-align:right">تختبر packages/modules معاً. تُستخدم لاختبار تكامل قاعدة البيانات.</p>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="badge badge-amber">System / Acceptance</span></div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:8px">Test the entire system end-to-end. Verify from the <strong>user's perspective</strong>. Prove real value is provided.</p>
+      <p style="font-size:12px;color:var(--text3);direction:rtl;text-align:right">تختبر النظام كاملاً. وجهة نظر المستخدم. تثبت القيمة الحقيقية.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-amber"><strong>⚠️ The Developer's Perspective Limitation:</strong><br>"Unit tests only test a developer's perspective of the solution to a problem. They have only a limited ability to prove that the application does what it is supposed to from a user's perspective."<br><br>Two different things: (A) Proving the solution works in a particular way → Unit tests. (B) Asserting the system solves the actual problem for the user → Only Acceptance tests.<br><br><strong>قيد وجهة نظر المطور:</strong> Unit tests تثبت (أ) أن الحل يعمل بطريقة معينة. لا تثبت (ب) أن التطبيق يحل المشكلة الفعلية للمستخدم. Acceptance tests ضرورية لـ (ب).</div>
+
+  <div class="bilingual">
+    <div class="bi-en"><div class="bi-lang-tag en-tag">The Automation Trade-off</div><p>The most important question isn't <em>if</em> we should automate. It is: <strong>"If I automate this test, what manual tests will I lose?"</strong> Every automated test is a trade-off — an investment that prevents you from running other potentially valuable manual tests. The cost = bugs you miss from not running those manual tests.</p></div>
+    <div class="bi-ar"><div class="bi-lang-tag ar-tag">معادلة الأتمتة</div><p>السؤال الأهم: <strong>"إذا أتمتّ هذا الاختبار، ما الاختبارات اليدوية التي سأخسرها؟"</strong> كل اختبار آلي هو مقايضة — استثمار يمنعك من اختبارات يدوية أخرى قد تكون ذات قيمة. التكلفة = الأخطاء التي ستفوّتها.</p></div>
+  </div>
+
+  <h3 style="font-size:15px;font-weight:700;color:var(--text);margin:20px 0 12px">Factors that increase automation value — عوامل تزيد قيمة الأتمتة</h3>
+  <div class="grid3">
+    <div class="card"><div class="card-title" style="color:var(--purple)">Configuration Testing</div><p style="font-size:13px;color:var(--text2)">Testing on new OS/device = logically equivalent to testing with changed support code. High automation value.<br><span style="direction:rtl;display:block;color:var(--text3);font-size:12px;margin-top:4px">الاختبار على OS جديد يعادل اختبار كود الدعم المعدّل.</span></p></div>
+    <div class="card"><div class="card-title" style="color:var(--red)">Faster Debugging</div><p style="font-size:13px;color:var(--text2)">Daily automated suite finds bugs the day after they're introduced — dramatically reduces debugging time.<br><span style="direction:rtl;display:block;color:var(--text3);font-size:12px;margin-top:4px">مجموعة يومية تجد الأخطاء في اليوم التالي لإدخالها.</span></p></div>
+    <div class="card"><div class="card-title" style="color:var(--blue)">Task-Driven Tests</div><p style="font-size:13px;color:var(--text2)">Simulate real user workflows (not single features). More variety, exercises more support code.<br><span style="direction:rtl;display:block;color:var(--text3);font-size:12px;margin-top:4px">محاكاة workflow حقيقي للمستخدم بدلاً من دالة واحدة.</span></p></div>
+  </div>
+</div>
+
+<!-- ==================== CHEAT SHEET ==================== -->
+<div id="page-cheat" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Quick Reference</div>
+    <div class="section-title">Cheat Sheet — ورقة الغش</div>
+    <div class="section-sub">كل ما تحتاجه في صفحة واحدة</div>
+  </div>
+
+  <div class="must-know" style="margin-bottom:20px">
+    <div class="must-item"><div class="must-icon">⚡</div><div class="must-text">Continuous Compilation ≠ Continuous Integration — compile فقط ليس CI كامل. CI يضيف: اختبارات، فحص كود، نشر آلي، تكامل DB، إشعارات.<div class="must-ar">الـ compile فقط ليس CI كامل.</div></div></div>
+    <div class="must-item"><div class="must-icon">📐</div><div class="must-text">Reliability = PRODUCT not average: 0.90 × 0.90 × 0.90 = 73%, NOT 90%. 4 components × 95% = 81.5%.<div class="must-ar">الموثوقية = حاصل ضرب وليس متوسط.</div></div></div>
+    <div class="must-item"><div class="must-icon">💯</div><div class="must-text">100% of tests must pass — not 99%. Any failing test = broken build. Broken build = top priority to fix.<div class="must-ar">100% من الاختبارات يجب أن تنجح. بناء مكسور = أعلى أولوية.</div></div></div>
+    <div class="must-item"><div class="must-icon">👁️</div><div class="must-text">Unit tests = developer's perspective ONLY. Cannot prove the app solves the user's actual problem. Need acceptance tests for that.<div class="must-ar">Unit tests وجهة نظر المطور فقط. Acceptance tests للمستخدم.</div></div></div>
+    <div class="must-item"><div class="must-icon">🗄️</div><div class="must-text">Database MUST be in VCS: creation scripts, data scripts, stored procedures, triggers — everything to recreate it from scratch.<div class="must-ar">قاعدة البيانات يجب أن تكون في VCS بالكامل.</div></div></div>
+    <div class="must-item"><div class="must-icon">🏗️</div><div class="must-text">Integration build = on a SEPARATE dedicated machine, not developer's workstation. This is what catches "it works on my machine" errors.<div class="must-ar">بناء التكامل على جهاز منفصل ومخصص وليس جهاز المطور.</div></div></div>
+    <div class="must-item"><div class="must-icon">🌍</div><div class="must-text">Root cause of infrequent commits = project culture (wanting "perfect" code before committing).<div class="must-ar">سبب عدم الـ commit المتكرر = ثقافة المشروع.</div></div></div>
+  </div>
+
+  <h3 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px">Complete Tools Reference — الأدوات الكاملة</h3>
+  <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px">
+    <table class="tools-table">
+      <thead><tr><th>Category</th><th>Tool</th><th>Function / الوظيفة</th></tr></thead>
+      <tbody>
+        <tr><td>CI Server</td><td><code>CruiseControl</code></td><td>Polls VCS, triggers builds, sends notifications / يراقب VCS، يُطلق البناء، يرسل إشعارات</td></tr>
+        <tr><td>Build Scripts</td><td><code>Ant</code> <code>NAnt</code> <code>Rake</code></td><td>Automate build, tests, deployment / يؤتمت البناء والاختبارات والنشر</td></tr>
+        <tr><td>Testing</td><td><code>JUnit</code> <code>NUnit</code></td><td>xUnit frameworks for automated developer tests / frameworks للاختبارات الآلية</td></tr>
+        <tr><td>Coding Standards</td><td><code>Checkstyle</code> <code>PMD</code></td><td>Detect coding standard violations / يكتشف مخالفات معايير الكود</td></tr>
+        <tr><td>Architecture</td><td><code>JDepend</code> <code>NDepend</code></td><td>Dependency analysis — enforce architectural rules / تحليل الاعتماديات</td></tr>
+        <tr><td>Duplicate Code</td><td><code>Simian</code> <code>PMD CPD</code></td><td>Detect code duplication / يكتشف تكرار الكود</td></tr>
+        <tr><td>Documentation</td><td><code>Doxygen</code></td><td>Auto-generate UML diagrams from source code / يولّد UML تلقائياً</td></tr>
+        <tr><td>Version Control</td><td><code>Subversion</code> (CVS)</td><td>Source code repository — single source of truth / مستودع الكود</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px">Risk → Solution → Tool Mapping</h3>
+  <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+    <table class="tools-table">
+      <thead><tr><th>Risk</th><th>Solution</th><th>Tools</th></tr></thead>
+      <tbody>
+        <tr><td>No Deployable Software</td><td>Separate machine + everything in VCS + automate deployment</td><td><code>CruiseControl</code> <code>Ant</code></td></tr>
+        <tr><td>Late Defect Discovery</td><td>Automated tests + coverage on every commit</td><td><code>JUnit</code> <code>Coverage</code></td></tr>
+        <tr><td>No Project Visibility</td><td>Auto notifications + auto-generated UML</td><td><code>CruiseControl</code> <code>Doxygen</code></td></tr>
+        <tr><td>Low Quality Software</td><td>Automated inspection in every build</td><td><code>Checkstyle</code> <code>JDepend</code> <code>Simian</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== FILL IN THE BLANKS ==================== -->
+<div id="page-fib" class="page">
+  <div class="q-section-header">
+    <div>
+      <div class="section-eyebrow">Practice Questions</div>
+      <div class="section-title">Fill in the Blanks — ملء الفراغات</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="q-type-badge" style="background:var(--teal-bg);color:var(--teal)">20 Questions</div>
+      <div class="score-display">Score: <span class="score-val" id="fib-score">0</span>/20</div>
+    </div>
+  </div>
+  <div id="fib-questions"></div>
+</div>
+
+<!-- ==================== TRUE / FALSE ==================== -->
+<div id="page-tf" class="page">
+  <div class="q-section-header">
+    <div>
+      <div class="section-eyebrow">Practice Questions</div>
+      <div class="section-title">True / False — صح أم خطأ</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="q-type-badge" style="background:var(--purple-bg);color:var(--purple)">15 Questions</div>
+      <div class="score-display">Score: <span class="score-val" id="tf-score">0</span>/15</div>
+    </div>
+  </div>
+  <div id="tf-questions"></div>
+</div>
+
+<!-- ==================== DISCUSSION ==================== -->
+<div id="page-disc" class="page">
+  <div class="q-section-header">
+    <div>
+      <div class="section-eyebrow">Practice Questions</div>
+      <div class="section-title">Discussion Questions — أسئلة النقاش</div>
+    </div>
+    <div class="q-type-badge" style="background:var(--blue-bg);color:var(--blue)">15 Questions</div>
+  </div>
+  <div class="alert alert-blue" style="margin-bottom:20px">These are open-ended questions expected in the exam. Review the model answers and practice writing your own. / هذه أسئلة مفتوحة متوقعة في الاختبار. راجع الإجابات النموذجية وتدرب على الكتابة.</div>
+  <div id="disc-questions"></div>
+</div>
+
+<!-- ==================== PROGRESS ==================== -->
+<div id="page-progress" class="page progress-page">
+  <div class="section-header">
+    <div class="section-eyebrow">Dashboard</div>
+    <div class="section-title">My Progress — نتائجي</div>
+  </div>
+  <div class="score-card">
+    <div class="score-big" id="total-score">0</div>
+    <div class="score-label">Total Points Scored (out of 35 answered questions)</div>
+  </div>
+  <div class="progress-breakdown">
+    <div class="pb-card"><div class="pb-val" id="pb-fib" style="color:var(--teal)">0/20</div><div class="pb-label">Fill in the Blanks</div></div>
+    <div class="pb-card"><div class="pb-val" id="pb-tf" style="color:var(--purple)">0/15</div><div class="pb-label">True / False</div></div>
+    <div class="pb-card"><div class="pb-val" id="pb-disc" style="color:var(--blue)">—</div><div class="pb-label">Discussion (open)</div></div>
+  </div>
+  <button class="reset-btn" onclick="resetAll()">🔄 Reset All Answers — إعادة تعيين</button>
+</div>
+
+</main>
+</div>
+
+<script>
+// ===== DATA =====
+const fibData = [
+  {n:1,cat:"def",en:"CI stands for ___________.",ar:"CI اختصار لـ ___________.",ans:"Continuous Integration",exp:"CI = Continuous Integration — a practice where team members integrate work frequently."},
+  {n:2,cat:"def",en:"In CI, each integration is verified by an automated ___________ (including tests).",ar:"في CI، كل دمج يتم التحقق منه بواسطة ___________ آلي (يشمل الاختبارات).",ans:"build",exp:"Each integration is verified by an automated BUILD — which includes compilation, testing, and inspection."},
+  {n:3,cat:"def",en:"Running a build locally on your workstation before committing is called a ___________ build.",ar:"تشغيل البناء محلياً على جهازك قبل الـ commit يُسمى ___________ build.",ans:"private",exp:"A PRIVATE build is run locally before committing to reduce the chance of breaking the integration build."},
+  {n:4,cat:"def",en:"The integration build is performed on a separate ___________ machine.",ar:"بناء التكامل يُنفَّذ على جهاز ___________ منفصل.",ans:"integration",exp:"The integration build uses a DEDICATED (integration) machine — not a developer's workstation."},
+  {n:5,cat:"def",en:"In CI, the word 'continuous' more accurately means ___________, not non-stop.",ar:"في CI، كلمة 'continuous' تعني بدقة أكبر ___________ وليس لا يتوقف.",ans:"continual",exp:"Continuous in CI means CONTINUAL — the CI server polls VCS for changes and runs the build script when detected."},
+  {n:6,cat:"def",en:"A 'code smell' is a symptom that something may be ___________ in the code.",ar:"الـ 'code smell' هو عرض يشير إلى أن هناك شيئاً ___________ في الكود.",ans:"wrong",exp:"Code smell = 'a symptom that something may be WRONG.' Examples: poor design, duplication, standard violations."},
+  {n:7,cat:"risk",en:"The scenario where a build fails on the test server but works on a developer's machine is called 'It Works on My ___________.'",ar:"السيناريو حيث البناء يفشل على الخادم لكن يعمل على جهاز المطور يُسمى 'It Works on My ___________.'",ans:"Machine",exp:"'It Works on My MACHINE' — caused by tight coupling between IDE and build process / missing files from VCS."},
+  {n:8,cat:"risk",en:"To detect architectural violations automatically, you use tools like ___________ or NDepend.",ar:"للكشف عن مخالفات المعمارية آلياً تستخدم أدوات مثل ___________ أو NDepend.",ans:"JDepend",exp:"JDepend and NDepend perform dependency analysis to enforce architectural rules in every integration build."},
+  {n:9,cat:"risk",en:"The tool used to auto-generate UML diagrams from source code in a CI system is ___________.",ar:"الأداة المستخدمة لتوليد مخططات UML تلقائياً من الكود في نظام CI هي ___________.",ans:"Doxygen",exp:"Doxygen documents source code and creates UML diagrams automatically — always up to date with the latest VCS commit."},
+  {n:10,cat:"risk",en:"The study mentioned in the material found an average of ___% duplicated code in one company.",ar:"الدراسة المذكورة في المادة وجدت معدل ___% كود مكرر في إحدى الشركات.",ans:"45",exp:"The material states: 'We analyzed all software development projects at one company and found an average 45% of duplicated code.'"},
+  {n:11,cat:"tool",en:"To enforce coding standards automatically in a Java CI build, you can use Checkstyle and ___________.",ar:"لتطبيق معايير الكود آلياً في بناء Java يمكنك استخدام Checkstyle و___________.",ans:"PMD",exp:"Checkstyle and PMD are used to report lines of code not meeting established standards, integrated into CruiseControl."},
+  {n:12,cat:"tool",en:"To detect duplicate code in a CI build, you can use Simian or PMD's ___________.",ar:"للكشف عن الكود المكرر في البناء يمكنك استخدام Simian أو ___________ الخاص بـ PMD.",ans:"CPD",exp:"PMD's CPD (Copy/Paste Detector) and Simian are tools to detect code duplication — run continuously in CI."},
+  {n:13,cat:"pipe",en:"A deployment pipeline is an automated ___________ of your process for getting software from version control to users.",ar:"الـ Deployment Pipeline هو ___________ آلي لعملية إيصال البرنامج من VCS للمستخدمين.",ans:"manifestation",exp:"Exact definition: 'A deployment pipeline is an automated MANIFESTATION of your process for getting software from version control into the hands of users.'"},
+  {n:14,cat:"pipe",en:"In the pipeline, the ___________ stage provides the fastest feedback and runs compilation and unit tests.",ar:"في الـ Pipeline، مرحلة ___________ توفر أسرع ملاحظة وتشغّل الـ compile واختبارات الوحدة.",ans:"Commit",exp:"The COMMIT stage is the first pipeline stage — fastest feedback. It runs compilation, unit tests, and static code analysis."},
+  {n:15,cat:"pipe",en:"If a system has 3 components each with 90% reliability, the overall system reliability is ___% (not 90%).",ar:"إذا كان النظام به 3 مكونات بموثوقية 90% لكل منها، الموثوقية الكلية هي ___% (وليس 90%).",ans:"73",exp:"0.90 × 0.90 × 0.90 = 0.729 = 73%. System reliability is a PRODUCT, not an average."},
+  {n:16,cat:"test",en:"Unit tests only test a developer's ___________ of the solution to a problem.",ar:"Unit tests تختبر فقط ___________ المطور لحل المشكلة.",ans:"perspective",exp:"Exact quote: 'Unit tests only test a developer's PERSPECTIVE of the solution to a problem. They have only a limited ability to prove that the application does what it is supposed to from a user's perspective.'"},
+  {n:17,cat:"test",en:"The question 'If I automate this test, what manual tests will I ___________?' captures the automation trade-off.",ar:"السؤال 'إذا أتمتّ هذا الاختبار، ما الاختبارات اليدوية التي سأ___________؟' يعبّر عن معادلة الأتمتة.",ans:"lose",exp:"Every automated test is a trade-off — it prevents you from running other manual tests. The cost = bugs you will LOSE (miss) from not running them."},
+  {n:18,cat:"def",en:"In CI, ___________ of automated tests must pass for the build to pass.",ar:"في CI، ___________% من الاختبارات الآلية يجب أن تنجح حتى ينجح البناء.",ans:"100",exp:"'In a CI environment, 100% of a project's automated tests must pass for your build to pass.' Any failure = broken build."},
+  {n:19,cat:"risk",en:"The notification mechanism added to CruiseControl to alert developers even without email access is ___________.",ar:"آلية الإشعار المضافة لـ CruiseControl لتنبيه المطورين حتى بدون إيميل هي ___________.",ans:"SMS",exp:"In addition to email notifications, SMS (text messages) were added so developers receive alerts on their mobile phones when a build fails."},
+  {n:20,cat:"def",en:"The main reason developers don't commit code frequently is because of the project ___________.",ar:"السبب الرئيسي لعدم قيام المطورين بـ commit الكود بشكل متكرر هو ___________ المشروع.",ans:"culture",exp:"'The main reason that changes are not committed frequently is because of the project CULTURE. Sometimes developers do not want to commit until it is perfect.'"}
+];
+
+const tfData = [
+  {n:1,cat:"def",en:"In CI, 'continuous' literally means the build runs 24/7 without stopping.",ar:"في CI، كلمة 'continuous' تعني حرفياً أن البناء يعمل 24 ساعة دون توقف.",ans:false,exp:"FALSE. In CI, 'continuous' means CONTINUAL — the CI server polls VCS for changes and runs the build when a change is detected. It does not run non-stop."},
+  {n:2,cat:"def",en:"A private build should closely resemble the integration build process.",ar:"الـ private build يجب أن يشبه بشكل وثيق عملية بناء التكامل.",ans:true,exp:"TRUE. 'To prevent broken builds, developers should emulate an integration build on their local workstation' — this is the private build."},
+  {n:3,cat:"def",en:"Continuous Compilation is equivalent to Continuous Integration.",ar:"الـ Continuous Compilation يعادل الـ Continuous Integration.",ans:false,exp:"FALSE. Continuous Compilation (just compiling on a separate machine) is better than nothing, but does NOT provide all CI benefits. Real CI adds testing, inspection, deployment, and more."},
+  {n:4,cat:"def",en:"Quality in CI is considered a measurable specification, not just a perception.",ar:"الجودة في CI تُعتبر مواصفة قابلة للقياس وليس مجرد إدراك.",ans:true,exp:"TRUE. 'We take the stance that quality is a measurable specification just like any other. This means you can identify specific metrics: maintainability, extensibility, security, performance.'"},
+  {n:5,cat:"risk",en:"The 'It Works on My Machine' problem can be solved by using a separate integration build machine.",ar:"مشكلة 'It Works on My Machine' يمكن حلها باستخدام جهاز تكامل منفصل.",ans:true,exp:"TRUE. The solution eliminates tight coupling between IDE and build process by using a separate integration machine (like CruiseControl) that builds from a clean VCS checkout."},
+  {n:6,cat:"risk",en:"Database scripts, stored procedures, and triggers should be kept outside the VCS to avoid complexity.",ar:"سكريبتات قاعدة البيانات والـ stored procedures يجب الاحتفاظ بها خارج VCS لتجنب التعقيد.",ans:false,exp:"FALSE. Everything needed to recreate the database must be in VCS: 'database creation scripts, data manipulation scripts, stored procedures, triggers, and any other database assets.'"},
+  {n:7,cat:"risk",en:"An unscrupulous developer might comment out failing tests to make the build pass.",ar:"مطور غير أمين قد يحذف اختبارات فاشلة بتعليقها لإمرار البناء.",ans:true,exp:"TRUE. The material warns: 'An unscrupulous developer may simply comment out the failing test. Code coverage tools assist in pinpointing source code that does not have a corresponding test.'"},
+  {n:8,cat:"risk",en:"Doxygen is used to detect code duplication in a CI build.",ar:"يُستخدم Doxygen للكشف عن الكود المكرر في بناء CI.",ans:false,exp:"FALSE. Doxygen is used to AUTO-GENERATE UML DIAGRAMS from source code. For duplicate code detection, use Simian or PMD CPD."},
+  {n:9,cat:"pipe",en:"System reliability is calculated as the average of all component reliabilities.",ar:"موثوقية النظام تُحسب كمتوسط موثوقيات جميع المكونات.",ans:false,exp:"FALSE. System reliability is a PRODUCT, not an average. 3 components at 90% = 0.90 × 0.90 × 0.90 = 73%, NOT 90%."},
+  {n:10,cat:"pipe",en:"The Commit Stage of a deployment pipeline provides the fastest feedback.",ar:"مرحلة Commit Stage في الـ Deployment Pipeline توفر أسرع ملاحظة.",ans:true,exp:"TRUE. The Commit Stage is the first stage of the pipeline and provides the fastest feedback. Later stages increase confidence but take longer."},
+  {n:11,cat:"test",en:"Unit tests can fully prove that an application solves the user's actual problem.",ar:"Unit tests يمكنها إثبات بالكامل أن التطبيق يحل مشكلة المستخدم الفعلية.",ans:false,exp:"FALSE. 'Unit tests only test a developer's perspective of the solution... They have only a LIMITED ability to prove that the application does what it is supposed to from a user's perspective.' Acceptance tests are needed for that."},
+  {n:12,cat:"test",en:"Component tests can be used to test database integration.",ar:"يمكن استخدام Component tests لاختبار تكامل قاعدة البيانات.",ans:true,exp:"TRUE. 'Typically, you will use the component tests to test the database and data. In some cases, you'll need to write database-specific tests.'"},
+  {n:13,cat:"def",en:"When the integration build is broken, developers should check out the latest code to fix it.",ar:"عندما يكون بناء التكامل مكسوراً، يجب على المطورين سحب أحدث كود لإصلاحه.",ans:false,exp:"FALSE. 'When the build is broken, don't check out the latest code from the version control repository. Otherwise, you must spend time developing a workaround to the error known to have failed the build.'"},
+  {n:14,cat:"def",en:"Fixing a broken integration build is the top project priority in a CI environment.",ar:"إصلاح بناء التكامل المكسور هو أعلى أولوية في المشروع في بيئة CI.",ans:true,exp:"TRUE. 'When operating in a CI environment, these problems must be fixed immediately... The project culture should convey that fixing a broken build is a top project priority.'"},
+  {n:15,cat:"risk",en:"Using a 30-page coding standards document is the recommended approach in CI for enforcing standards.",ar:"استخدام وثيقة معايير كود مكونة من 30 صفحة هو النهج الموصى به في CI.",ans:false,exp:"FALSE. The solution in the material is to replace the 30-page document with a ONE-PAGE ANNOTATED CLASS containing all coding standards, enforced automatically by Checkstyle/PMD in every build."}
+];
+
+const discData = [
+  {n:1,cat:"def",en:"Define Continuous Integration (CI) and explain why it is called 'continuous' even though the build does not run non-stop.",ar:"عرّف الـ Continuous Integration واشرح لماذا يُسمى 'مستمراً' رغم أن البناء لا يعمل طوال الوقت.",ans:"<strong>Definition:</strong> CI is a software development practice where team members integrate their work frequently — at least daily — with each integration verified by an automated build to detect errors as quickly as possible.<br><br><strong>Why 'continuous':</strong> The CI server <em>continually polls</em> the VCS for changes. When detected, it executes the build script. 'Continuous' means continual monitoring, not non-stop execution. The build only runs when triggered by a VCS change.",ar_ans:"<strong>التعريف:</strong> CI ممارسة يدمج فيها الفريق عملهم يومياً على الأقل مع تحقق آلي من كل دمج.<br><strong>لماذا مستمر:</strong> خادم CI يراقب VCS باستمرار وينفّذ السكريبت عند اكتشاف تغيير. المعنى: مراقبة متواصلة وليس تشغيل دون توقف."},
+  {n:2,cat:"def",en:"Distinguish between Continuous Compilation and Continuous Integration. List at least four things that full CI adds beyond compilation.",ar:"فرّق بين Continuous Compilation وCI. اذكر على الأقل 4 أشياء يضيفها CI الكامل فوق الـ compile.",ans:"<strong>Continuous Compilation:</strong> Only polls VCS, compiles, and emails on compile failure. Better than nothing, but NOT full CI.<br><br><strong>Full CI additionally adds:</strong><br>1. Automated tests (JUnit) on every build<br>2. Code inspection (Checkstyle, PMD, JDepend, Simian)<br>3. Automated deployment to test environment<br>4. Database integration (rebuild/test DB automatically)<br>5. Feedback notifications (email/SMS)<br>6. Code coverage measurement<br>7. Auto-generated UML (Doxygen)",ar_ans:"<strong>Continuous Compilation:</strong> compile فقط وإيميل عند فشله.<br><strong>CI الكامل يضيف:</strong> اختبارات آلية (JUnit)، فحص الكود (Checkstyle/PMD/JDepend/Simian)، نشر آلي، تكامل DB، إشعارات SMS/إيميل، code coverage، UML آلي (Doxygen)."},
+  {n:3,cat:"risk",en:"Adam commits code to Subversion. The integration build fails on the server but works on his machine. Identify the violated CI practice, the root cause, and the full solution.",ar:"آدم يعمل commit. البناء يفشل على الخادم لكن يعمل على جهازه. حدّد الممارسة المخالفة والسبب الجذري والحل الكامل.",ans:"<strong>Violated practice:</strong> 'Don't Commit Broken Code' — Adam committed without running a private build.<br><br><strong>Root cause:</strong> Tight coupling between Adam's IDE and build process. He forgot to add new files to Subversion. The integration server builds from a clean checkout, so missing files = failure.<br><br><strong>Solution:</strong><br>1. Adam must always run a private build (resembling integration build) before committing<br>2. All files must be in Subversion<br>3. Use a separate integration machine (CruiseControl) with clean checkout<br>4. Use Ant/NAnt build scripts so build is IDE-independent",ar_ans:"<strong>الممارسة المخالفة:</strong> 'لا تعمل commit لكود مكسور'. <strong>السبب:</strong> ارتباط IDE بالبناء + نسي إضافة الملفات لـ Subversion. <strong>الحل:</strong> private build دائماً قبل الـ commit + كل الملفات في VCS + جهاز تكامل منفصل."},
+  {n:4,cat:"risk",en:"Describe the 'Low-Quality Software' risk with all three sub-scenarios. For each: the characters, the problem, the solution, and the tools.",ar:"صِف مخاطرة جودة البرمجيات المنخفضة مع السيناريوهات الثلاثة. لكل منها: الشخصيات، المشكلة، الحل، الأدوات.",ans:"<strong>A — Coding Standards (Brian &amp; Lindsay):</strong> Lindsay uses personal style; 30-page doc ignored. → 1-page annotated class + Checkstyle/PMD in every build; fail build on violations.<br><br><strong>B — Architectural Adherence (Jenn, Mark &amp; Charlie):</strong> Developer calls data layer from controller — violates architecture rule. → JDepend/NDepend dependency analysis in every integration build.<br><br><strong>C — Duplicate Code (Mary &amp; Adam):</strong> Copy-paste habit; 45% duplication found in one company. → Simian/PMD CPD + refactor to single shared method + run continuously.",ar_ans:"<strong>أ — معايير الكود:</strong> برايان وليندساي. وثيقة 30 صفحة. الحل: Checkstyle/PMD.<br><strong>ب — المعمارية:</strong> جين ومارك وتشارلي. data layer تستدعي business layer. الحل: JDepend/NDepend.<br><strong>ج — الكود المكرر:</strong> ماري وآدم. 45% تكرار. الحل: Simian/PMD CPD."},
+  {n:5,cat:"pipe",en:"A system has 4 components each with 95% reliability. Calculate overall reliability and explain why averaging is incorrect. What does this mean for CI practices?",ar:"نظام به 4 مكونات بموثوقية 95% لكل منها. احسب الموثوقية الكلية واشرح لماذا أخذ المتوسط خاطئ.",ans:"<strong>Calculation:</strong> 0.95 × 0.95 × 0.95 × 0.95 = 0.95⁴ ≈ <strong>81.5%</strong> (not 95%)<br><br><strong>Why not average:</strong> For the system to work, ALL components must work simultaneously. If any fails, the system fails. So reliability is multiplicative (product), not additive. Averaging would falsely suggest 95% reliability.<br><br><strong>CI implication:</strong> This is why CI requires 100% test pass — each failing test represents an unreliable component that degrades overall system reliability.",ar_ans:"<strong>الحساب:</strong> 0.95⁴ ≈ 81.5% وليس 95%.<br><strong>لماذا لا متوسط:</strong> النظام يعمل فقط عندما جميع المكونات تعمل في نفس الوقت. الموثوقية حاصل ضرب وليس مجموع.<br><strong>التداعية:</strong> لهذا CI يتطلب 100% نجاح — كل اختبار فاشل = مكون غير موثوق."},
+  {n:6,cat:"pipe",en:"Describe the stages of the Deployment Pipeline and explain the 'balancing act.' What are the two competing forces and what is the objective?",ar:"صِف مراحل الـ Deployment Pipeline واشرح الـ 'balancing act'. ما القوتان المتعارضتان والهدف؟",ans:"<strong>Definition:</strong> An automated manifestation of the process for getting software from VCS to users.<br><br><strong>Stages:</strong><br>1. Commit Stage — compile, unit tests, static analysis (fastest feedback)<br>2. Acceptance Test Stage — automated acceptance tests (full system)<br>3. Manual Testing — UAT, exploratory<br>4. Production — release to users (highest confidence)<br><br><strong>Balancing Act:</strong><br>→ Force 1: Increasing confidence (later stages = higher confidence)<br>→ Force 2: Faster feedback (earlier stages = faster failure info)<br>→ Objective: Eliminate unfit candidates EARLY + get feedback RAPIDLY",ar_ans:"<strong>4 مراحل:</strong> Commit Stage → Acceptance Test → Manual Testing → Production.<br><strong>الموازنة:</strong> زيادة الثقة (مراحل متأخرة) ضد سرعة الملاحظة (مراحل مبكرة).<br><strong>الهدف:</strong> القضاء على مرشحي الإصدار الفاشلين مبكراً + ملاحظات سريعة."},
+  {n:7,cat:"test",en:"Compare unit tests and acceptance/system tests. Explain the 'developer's perspective' limitation and why both test types are necessary.",ar:"قارن بين unit tests وacceptance tests. اشرح قيد 'وجهة نظر المطور' ولماذا كلا النوعين ضروري.",ans:"<strong>Unit Tests:</strong> Test individual functions. Fast. Developer writes and runs them. Tests from developer's own perspective — 'does my implementation work the way I designed it?'<br><br><strong>Developer's Perspective Limitation:</strong> 'Unit tests only test a developer's perspective of the solution to a problem. They have only a limited ability to prove that the application does what it is supposed to from a user's perspective.'<br><br>Two different questions: (A) Does the solution work in this particular way? [Unit tests] (B) Does the system actually solve the user's real problem? [Only acceptance tests]<br><br><strong>Both are necessary:</strong> Unit tests are fast and catch developer mistakes early. Acceptance tests ensure the system meets actual user needs.",ar_ans:"<strong>Unit Tests:</strong> دوال منفردة، وجهة نظر المطور فقط. <strong>القيد:</strong> لا تثبت أن التطبيق يحل مشكلة المستخدم الفعلية. <strong>Acceptance Tests:</strong> النظام كاملاً، وجهة نظر المستخدم. <strong>كلاهما ضروري:</strong> unit tests سريعة لأخطاء المطور؛ acceptance tests لتأكيد القيمة الحقيقية."},
+  {n:8,cat:"def",en:"A project manager says: 'We practice CI — CruiseControl compiles our code on every commit and emails us on failure.' Is this correct? What is missing?",ar:"مدير يقول: 'نحن نطبق CI — CruiseControl يقوم بـ compile كودنا في كل commit.' هل هذا صحيح؟ ما الذي ينقص؟",ans:"<strong>Incorrect.</strong> This is Continuous Compilation, NOT Continuous Integration. 'Automatically compiling on a separate machine is better than nothing, but doing that isn't going to provide all of the benefits of a full-featured CI system.'<br><br><strong>Missing:</strong><br>1. Automated unit/component tests (JUnit) on every build<br>2. Code inspections (Checkstyle, PMD, JDepend, Simian)<br>3. Automated deployment to test environment<br>4. Database rebuild and test on every build<br>5. Code coverage measurement<br>6. SMS notifications (not just email)<br>7. Auto-generated UML (Doxygen)",ar_ans:"<strong>خاطئ.</strong> هذا Continuous Compilation وليس CI. <strong>ما ينقص:</strong> اختبارات JUnit آلية، فحوصات الكود، نشر آلي، إعادة بناء DB، code coverage، SMS، UML آلي."},
+  {n:9,cat:"def",en:"What are the 5 main values/benefits that CI provides to a software development team?",ar:"ما هي القيم / الفوائد الخمس الرئيسية التي يقدمها CI لفريق تطوير البرمجيات؟",ans:"1. <strong>Reduce Risks:</strong> Defects detected when introduced, software health is measurable, reduce assumptions<br>2. <strong>Reduce Repetitive Processes:</strong> Same ordered process every time, frees people for higher-value work<br>3. <strong>Generate Deployable Software:</strong> Always have a releasable version at any point in time<br>4. <strong>Enable Better Project Visibility:</strong> Just-in-time info on build status and quality metrics, notice trends<br>5. <strong>Establish Greater Product Confidence:</strong> Every build verifies behavior and standards",ar_ans:"1. تقليل المخاطر 2. تقليل التكرار 3. برنامج قابل للنشر في أي وقت 4. رؤية أفضل للمشروع 5. ثقة أعلى بالمنتج."},
+  {n:10,cat:"risk",en:"Describe the Lack of Project Visibility risk with its two scenarios and solutions. What tools are used?",ar:"صِف مخاطرة غياب رؤية المشروع مع سيناريوهيها وحلولهما. ما الأدوات المستخدمة؟",ans:"<strong>Scenario A — 'Did You Get the Memo?' (Evelyn &amp; Noah):</strong> Noah is waiting for the QA build but it was already deployed 2 days ago. Manual communication failed because he was out of office.<br>Solution: Configure CruiseControl to send automatic <strong>email + SMS</strong> notifications when build fails. Install automated server availability agents.<br><br><strong>Scenario B — Inability to Visualize (Maile &amp; Allie):</strong> New developer asks for UML diagrams; veteran dismisses the request. No up-to-date architecture diagrams exist.<br>Solution: Use <strong>Doxygen</strong> as part of CI system to auto-generate UML class diagrams from source code — always up to date.",ar_ans:"<strong>سيناريو أ:</strong> إيفلين ونوح. نشر تم قبل يومين لكن نوح لم يعلم. الحل: CruiseControl يرسل إيميل + SMS تلقائياً.<br><strong>سيناريو ب:</strong> مايلي وآلي. مطور جديد لا يجد مخططات UML. الحل: Doxygen يولّد UML تلقائياً."},
+  {n:11,cat:"def",en:"List and briefly explain the 7 CI practices every developer must follow.",ar:"اذكر واشرح بإيجاز الممارسات السبع لـ CI التي يجب على كل مطور اتباعها.",ans:"1. <strong>Commit Frequently:</strong> Small changes, commit after each task<br>2. <strong>Don't Commit Broken Code:</strong> Run private build first<br>3. <strong>Fix Broken Builds Immediately:</strong> Top priority<br>4. <strong>Write Automated Tests:</strong> JUnit/NUnit frameworks<br>5. <strong>All Tests Must Pass:</strong> 100% — any failure = broken build<br>6. <strong>Run Private Builds:</strong> Emulate integration build locally<br>7. <strong>Avoid Getting Broken Code:</strong> Don't checkout when build is broken",ar_ans:"1. commit متكرر 2. لا commit لكود مكسور 3. أصلح البناء المكسور فوراً 4. اكتب اختبارات آلية 5. 100% اختبارات ناجحة 6. شغّل private builds 7. لا تسحب كود مكسور."},
+  {n:12,cat:"pipe",en:"List and explain the 5 transformation principles for implementing a Deployment Pipeline.",ar:"اذكر واشرح المبادئ الخمسة لتطبيق الـ Deployment Pipeline.",ans:"1. <strong>Single Source of Truth:</strong> Everything (code, DB scripts, config) in VCS<br>2. <strong>Automate the Entire Build:</strong> One script builds the whole system from scratch<br>3. <strong>Self-Testing Build:</strong> Unit, component, regression tests run automatically<br>4. <strong>Integrate Continuously:</strong> Every developer commits to mainline daily<br>5. <strong>Automate Inspection and Deployment:</strong> Quality checks and deployment are automatic pipeline steps",ar_ans:"1. Single Source of Truth في VCS 2. أتمتة البناء الكامل 3. بناء يختبر نفسه 4. الدمج المستمر يومياً 5. أتمتة الفحص والنشر."},
+  {n:13,cat:"risk",en:"Explain the Lack of Deployable Software risk. Why is the 'Missing Click' scenario significant and how is it resolved?",ar:"اشرح مخاطرة غياب البرنامج القابل للنشر. لماذا سيناريو 'Missing Click' مهم وكيف يُحلّ؟",ans:"<strong>Risk:</strong> Team cannot consistently produce working, deployable software. Causes: missing files in VCS, inability to reproduce builds, manual deployment errors.<br><br><strong>Missing Click scenario (Rachel &amp; John):</strong> John manually deployed using a Web admin tool but forgot to select 'precompile JSPs.' This caused runtime errors. Deployment took 10-15 minutes daily and was a bottleneck depending on John being available.<br><br><strong>Solution:</strong> Automate deployment by adding it to Ant build scripts using command-line options. CruiseControl runs these scripts automatically on every VCS commit — no manual clicks needed, consistent results every time.",ar_ans:"<strong>الخطر:</strong> لا يمكن إنتاج برنامج يعمل بشكل منتظم.<br><strong>سيناريو Missing Click:</strong> جون نسي تفعيل خيار أثناء النشر اليدوي. النشر يستغرق 10-15 دقيقة ويعتمد على شخص واحد.<br><strong>الحل:</strong> أتمتة النشر في Ant scripts تُطلَق تلقائياً من CruiseControl."},
+  {n:14,cat:"test",en:"What are the three categories of developer tests in CI? How are they different and when is each used?",ar:"ما الفئات الثلاث لاختبارات المطور في CI؟ كيف تختلف ومتى يُستخدم كل منها؟",ans:"<strong>1. Unit Tests:</strong> Test individual functions/methods. Fast. Written by developers. Used for testing developer logic in isolation. Limitation: only test developer's perspective.<br><br><strong>2. Component Tests:</strong> Test packages or modules working together. Also used to test database integration — verifying schema, stored procedures, test data populations.<br><br><strong>3. System/Acceptance Tests:</strong> Test the entire system end-to-end from the user's perspective. Prove the application provides real value. Cannot be replaced by unit tests alone.",ar_ans:"<strong>Unit Tests:</strong> دوال منفردة، وجهة نظر المطور.<br><strong>Component Tests:</strong> packages/modules معاً + تكامل قاعدة البيانات.<br><strong>System/Acceptance Tests:</strong> النظام كاملاً من وجهة نظر المستخدم، يثبت القيمة الحقيقية."},
+  {n:15,cat:"def",en:"Explain what a 'code smell' is and describe three specific types of code smells addressed in CI Risk 4, with their detection tools.",ar:"اشرح مفهوم الـ 'code smell' وصِف ثلاثة أنواع محددة منه تُعالَج في Risk 4 من CI مع أدوات اكتشافها.",ans:"<strong>Code smell:</strong> 'A symptom that something may be wrong' — potential defects from poor design or non-standard code, before they become real defects.<br><br><strong>Type 1 — Coding Standard Violations:</strong> Code that doesn't follow established project standards, making it hard to maintain. Detected by: Checkstyle, PMD<br><br><strong>Type 2 — Architectural Violations:</strong> Code that breaks the intended architecture (e.g., data layer calling business layer). Detected by: JDepend, NDepend<br><br><strong>Type 3 — Duplicate Code:</strong> Copy-pasted logic that must be maintained in multiple places (45% found in one company). Detected by: Simian, PMD CPD",ar_ans:"<strong>Code Smell:</strong> عرض يشير لوجود مشكلة محتملة.<br><strong>النوع 1:</strong> مخالفات معايير الكود → Checkstyle/PMD<br><strong>النوع 2:</strong> مخالفات معمارية → JDepend/NDepend<br><strong>النوع 3:</strong> كود مكرر (45% في شركة) → Simian/PMD CPD"}
+];
+
+// ===== SCORES =====
+let scores = { fib: {}, tf: {} };
+function updateScores() {
+  const fibCorrect = Object.values(scores.fib).filter(v=>v).length;
+  const tfCorrect = Object.values(scores.tf).filter(v=>v).length;
+  const total = fibCorrect + tfCorrect;
+  const answered = Object.keys(scores.fib).length + Object.keys(scores.tf).length;
+  document.getElementById('fib-score').textContent = fibCorrect;
+  document.getElementById('tf-score').textContent = tfCorrect;
+  document.getElementById('total-score').textContent = total;
+  document.getElementById('pb-fib').textContent = fibCorrect + '/20';
+  document.getElementById('pb-tf').textContent = tfCorrect + '/15';
+  document.getElementById('sidebar-score').textContent = total;
+  const pct = answered > 0 ? Math.round((total/answered)*100) : 0;
+  document.getElementById('global-progress').style.width = Math.round((answered/35)*100) + '%';
+}
+
+// ===== RENDER FIB =====
+function renderFIB() {
+  const container = document.getElementById('fib-questions');
+  container.innerHTML = fibData.map(q => {
+    const catClass = 'cat-'+q.cat;
+    const catLabel = {def:'Definition',risk:'Risk',pipe:'Pipeline',test:'Testing',tool:'Tools'}[q.cat];
+    return `<div class="fib-card" id="fib-card-${q.n}">
+      <div class="q-meta">
+        <span class="q-num">Q${q.n}</span>
+        <span class="q-cat ${catClass}">${catLabel}</span>
+      </div>
+      <div class="q-text-en">${q.en.replace('___________','<input class="blank-input" id="fib-inp-'+q.n+'" placeholder="type answer..." onkeydown="if(event.key===\'Enter\')checkFIB('+q.n+')">')}</div>
+      <div class="q-text-ar">${q.ar.replace('___________','<input class="blank-input" id="fib-inp-ar-'+q.n+'" placeholder="اكتب الجواب..." style="text-align:right" onkeydown="if(event.key===\'Enter\')checkFIB('+q.n+')">')}</div>
+      <button class="check-btn" onclick="checkFIB(${q.n})">✓ Check Answer</button>
+      <div class="answer-reveal" id="fib-ok-${q.n}">✅ Correct! — ${q.exp}</div>
+      <div class="wrong-reveal" id="fib-wrong-${q.n}">❌ Correct answer: <strong>${q.ans}</strong><br><span style="color:var(--text2)">${q.exp}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function checkFIB(n) {
+  const q = fibData.find(x=>x.n===n);
+  const inp = document.getElementById('fib-inp-'+n);
+  const val = inp.value.trim().toLowerCase();
+  const correct = q.ans.toLowerCase();
+  const isCorrect = val === correct || val.replace(/\s+/g,'') === correct.replace(/\s+/g,'');
+  scores.fib[n] = isCorrect;
+  inp.className = 'blank-input ' + (isCorrect ? 'correct' : 'wrong');
+  document.getElementById('fib-ok-'+n).className = 'answer-reveal' + (isCorrect ? ' show' : '');
+  document.getElementById('fib-wrong-'+n).className = 'wrong-reveal' + (!isCorrect ? ' show' : '');
+  // also mark ar input if present
+  const inpAr = document.getElementById('fib-inp-ar-'+n);
+  if(inpAr) inpAr.className = 'blank-input ' + (isCorrect ? 'correct' : 'wrong');
+  updateScores();
+}
+
+// ===== RENDER TF =====
+function renderTF() {
+  const container = document.getElementById('tf-questions');
+  container.innerHTML = tfData.map(q => {
+    const catClass = 'cat-'+q.cat;
+    const catLabel = {def:'Definition',risk:'Risk',pipe:'Pipeline',test:'Testing',tool:'Tools'}[q.cat];
+    return `<div class="tf-card" id="tf-card-${q.n}">
+      <div class="q-meta">
+        <span class="q-num">Q${q.n}</span>
+        <span class="q-cat ${catClass}">${catLabel}</span>
+      </div>
+      <div class="q-text-en">${q.en}</div>
+      <div class="q-text-ar">${q.ar}</div>
+      <div class="tf-buttons">
+        <button class="tf-btn true-btn" id="tf-t-${q.n}" onclick="checkTF(${q.n},true)">✓ TRUE — صح</button>
+        <button class="tf-btn false-btn" id="tf-f-${q.n}" onclick="checkTF(${q.n},false)">✗ FALSE — خطأ</button>
+      </div>
+      <div class="tf-explanation" id="tf-exp-${q.n}"></div>
+    </div>`;
+  }).join('');
+}
+
+function checkTF(n, chosen) {
+  const q = tfData.find(x=>x.n===n);
+  const isCorrect = chosen === q.ans;
+  scores.tf[n] = isCorrect;
+  const tBtn = document.getElementById('tf-t-'+n);
+  const fBtn = document.getElementById('tf-f-'+n);
+  tBtn.disabled = fBtn.disabled = true;
+  if(chosen) tBtn.className = 'tf-btn true-btn selected-true ' + (isCorrect?'correct-flash':'wrong-flash');
+  else fBtn.className = 'tf-btn false-btn selected-false ' + (isCorrect?'correct-flash':'wrong-flash');
+  const exp = document.getElementById('tf-exp-'+n);
+  exp.className = 'tf-explanation show ' + (isCorrect ? 'tf-exp-correct' : 'tf-exp-wrong');
+  exp.innerHTML = (isCorrect ? '✅ Correct! ' : '❌ Incorrect. ') + q.exp;
+  updateScores();
+}
+
+// ===== RENDER DISC =====
+function renderDisc() {
+  const container = document.getElementById('disc-questions');
+  container.innerHTML = discData.map(q => {
+    const catClass = 'cat-'+q.cat;
+    const catLabel = {def:'Definition',risk:'Risk',pipe:'Pipeline',test:'Testing',tool:'Tools'}[q.cat];
+    return `<div class="disc-card">
+      <div class="q-meta">
+        <span class="q-num">Q${q.n}</span>
+        <span class="q-cat ${catClass}">${catLabel}</span>
+      </div>
+      <div class="q-text-en">${q.en}</div>
+      <div class="q-text-ar">${q.ar}</div>
+      <button class="disc-reveal-btn" onclick="toggleDisc(this)">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+        Show Model Answer — أظهر الإجابة النموذجية
+      </button>
+      <div class="disc-answer">
+        ${q.ans}
+        <div class="ar-part">${q.ar_ans}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleDisc(btn) {
+  const ans = btn.nextElementSibling;
+  const isOpen = ans.classList.contains('show');
+  ans.classList.toggle('show');
+  btn.innerHTML = isOpen
+    ? '<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg> Show Model Answer — أظهر الإجابة النموذجية'
+    : '<svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg> Hide Answer — أخفِ الإجابة';
+}
+
+// ===== NAVIGATION =====
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(window.innerWidth <= 768) closeSidebar();
+}
+
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('mobile-open');
+  document.getElementById('overlay').classList.add('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function resetAll() {
+  scores = { fib: {}, tf: {} };
+  renderFIB(); renderTF();
+  updateScores();
+  alert('All answers have been reset! / تم إعادة تعيين جميع الإجابات!');
+}
+
+// ===== INIT =====
+renderFIB();
+renderTF();
+renderDisc();
+updateScores();
+</script>
+</body>
+</html>
