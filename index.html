@@ -5,21 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CI Study Guide — Software Engineering Year 3</title>
 <style>
-/* ===== RESET & BASE ===== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-/* LIGHT THEME (Default) */
+/* ===== DARK THEME VARIABLES (DEFAULT) ===== */
 :root {
-  --bg: #ffffff;
-  --bg2: #f8f9fa;
-  --bg3: #f0f1f5;
-  --card: #ffffff;
-  --card2: #f3f4f8;
-  --border: rgba(0,0,0,0.08);
-  --border2: rgba(0,0,0,0.15);
-  --text: #1a1a1a;
-  --text2: #4a4a4a;
-  --text3: #7a7a7a;
+  --bg: #0d0f14;
+  --bg2: #13161e;
+  --bg3: #1a1e29;
+  --card: #1e2333;
+  --card2: #252c3f;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.15);
+  --text: #e8eaf0;
+  --text2: #9ba3bc;
+  --text3: #6b7494;
   --teal: #2dd4bf;
   --teal-bg: rgba(45,212,191,0.1);
   --blue: #60a5fa;
@@ -39,24 +36,26 @@
   --radius-xs: 5px;
   --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-  --shadow: 0 4px 24px rgba(0,0,0,0.1);
-}
-
-/* DARK THEME */
-html.dark-mode {
-  --bg: #0d0f14;
-  --bg2: #13161e;
-  --bg3: #1a1e29;
-  --card: #1e2333;
-  --card2: #252c3f;
-  --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.15);
-  --text: #e8eaf0;
-  --text2: #9ba3bc;
-  --text3: #6b7494;
   --shadow: 0 4px 24px rgba(0,0,0,0.4);
 }
 
+/* ===== LIGHT THEME VARIABLES ===== */
+html.light-mode {
+  --bg: #ffffff;
+  --bg2: #f8f9fa;
+  --bg3: #f0f1f5;
+  --card: #ffffff;
+  --card2: #f3f4f8;
+  --border: rgba(0,0,0,0.08);
+  --border2: rgba(0,0,0,0.15);
+  --text: #1a1a1a;
+  --text2: #4a4a4a;
+  --text3: #7a7a7a;
+  --shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font);
@@ -67,15 +66,7 @@ body {
   transition: background 0.3s, color 0.3s;
 }
 
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg2); }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-
-/* ===== LAYOUT ===== */
-.layout { display: flex; min-height: 100vh; }
-
-/* ===== THEME TOGGLE ===== */
+/* ===== THEME TOGGLE BUTTON ===== */
 .theme-toggle {
   position: fixed;
   top: 20px;
@@ -92,16 +83,21 @@ body {
   cursor: pointer;
   font-size: 24px;
   transition: all 0.3s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow);
 }
-
 .theme-toggle:hover { transform: scale(1.1); }
-
-html.dark-mode .theme-toggle { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
 
 @media (max-width: 768px) {
   .theme-toggle { top: 12px; right: 12px; width: 45px; height: 45px; font-size: 20px; }
 }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ===== LAYOUT ===== */
+.layout { display: flex; min-height: 100vh; }
 
 /* ===== SIDEBAR ===== */
 .sidebar {
@@ -115,7 +111,7 @@ html.dark-mode .theme-toggle { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  transition: background 0.3s;
+  transition: background 0.3s, border-color 0.3s;
 }
 .sidebar-logo {
   padding: 24px 20px 16px;
@@ -176,18 +172,18 @@ html.dark-mode .theme-toggle { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
 
 /* ===== HERO ===== */
 .hero {
-  background: linear-gradient(135deg, var(--bg3) 0%, #e8f0ff 100%);
+  background: linear-gradient(135deg, var(--bg3) 0%, #1a2040 100%);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 36px 40px;
   margin-bottom: 32px;
   position: relative;
   overflow: hidden;
-  transition: background 0.3s;
+  transition: background 0.3s, border-color 0.3s;
 }
 
-html.dark-mode .hero {
-  background: linear-gradient(135deg, var(--bg3) 0%, #1a2040 100%);
+html.light-mode .hero {
+  background: linear-gradient(135deg, var(--bg3) 0%, #e8f0ff 100%);
 }
 
 .hero::before {
@@ -246,12 +242,52 @@ html.dark-mode .hero {
   border-radius: var(--radius);
   padding: 20px;
   margin-bottom: 16px;
-  transition: background 0.3s;
+  transition: background 0.3s, border-color 0.3s;
 }
 .card-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
 .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+
+/* ===== TERMS ===== */
+.term-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.term-name { font-size: 13px; font-weight: 700; color: var(--teal); font-family: var(--font-mono); margin-bottom: 8px; }
+.term-en { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 8px; }
+.term-ar { font-size: 13px; color: var(--text2); direction: rtl; text-align: right; line-height: 1.65; padding-top: 8px; border-top: 1px solid var(--border); }
+
+/* ===== PRACTICE STEPS ===== */
+.practice {
+  display: flex;
+  gap: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 8px;
+  align-items: flex-start;
+  transition: border-color 0.3s;
+}
+.practice:hover { border-color: var(--border2); }
+.p-num {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--teal-bg);
+  color: var(--teal);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.p-content {}
+.p-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.p-en { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 6px; }
+.p-ar { font-size: 13px; color: var(--text3); direction: rtl; text-align: right; line-height: 1.65; border-top: 1px solid var(--border); padding-top: 6px; margin-top: 4px; }
 
 /* ===== ALERTS ===== */
 .alert {
@@ -261,12 +297,363 @@ html.dark-mode .hero {
   font-size: 13.5px;
   line-height: 1.65;
   border-left: 3px solid;
+  transition: background 0.3s, border-color 0.3s;
 }
 .alert-teal { background: var(--teal-bg); border-left-color: var(--teal); color: var(--text); }
 .alert-amber { background: var(--amber-bg); border-left-color: var(--amber); color: var(--text); }
 .alert-red { background: var(--red-bg); border-left-color: var(--red); color: var(--text); }
 .alert-purple { background: var(--purple-bg); border-left-color: var(--purple); color: var(--text); }
 .alert-blue { background: var(--blue-bg); border-left-color: var(--blue); color: var(--text); }
+
+/* ===== RISK CARDS ===== */
+.risk-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 20px;
+  transition: border-color 0.3s;
+}
+.risk-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg3);
+  transition: background 0.3s;
+}
+.risk-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--red-bg);
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.risk-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.risk-body { padding: 20px; }
+.scenario-block {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 12px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.scenario-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 8px;
+}
+.scenario-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sc-col-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; font-weight: 600; }
+.sc-col-text { font-size: 13px; color: var(--text2); line-height: 1.65; }
+.sc-col-text.ar { direction: rtl; text-align: right; }
+.solution-block {
+  background: var(--green-bg);
+  border: 1px solid rgba(74,222,128,0.15);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-top: 12px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.solution-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+.tools-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.tool-pill {
+  background: var(--card2);
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: var(--text2);
+  font-family: var(--font-mono);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* ===== PIPELINE ===== */
+.pipeline { display: flex; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; transition: border-color 0.3s; }
+.pipe-stage { flex: 1; padding: 16px 12px; border-right: 1px solid var(--border); text-align: center; background: var(--card); transition: background .2s; }
+.pipe-stage:last-child { border-right: none; }
+.pipe-stage:hover { background: var(--card2); }
+.ps-num { width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+.ps-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.ps-desc { font-size: 11px; color: var(--text3); line-height: 1.5; }
+.ps-badge { font-size: 10px; border-radius: 99px; padding: 2px 8px; margin-top: 6px; display: inline-block; font-weight: 600; }
+
+/* ===== RELIABILITY CALC ===== */
+.reliability-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  text-align: center;
+  margin-bottom: 16px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.rel-formula { font-size: 26px; font-weight: 800; color: var(--text); font-family: var(--font-mono); margin-bottom: 6px; }
+.rel-result { font-size: 40px; font-weight: 900; color: var(--red); margin-bottom: 8px; }
+.rel-note { font-size: 13px; color: var(--text3); }
+
+/* ===== QUESTION STYLES ===== */
+.q-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.q-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+.score-display {
+  font-size: 13px;
+  color: var(--text2);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 14px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.score-val { font-weight: 700; color: var(--teal); }
+
+/* FILL IN BLANK */
+.fib-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: border-color .2s, background 0.3s;
+}
+.fib-card:hover { border-color: var(--border2); }
+.q-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.q-num { font-size: 11px; font-weight: 700; color: var(--text3); font-family: var(--font-mono); }
+.q-cat { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-radius: 99px; padding: 2px 8px; }
+.cat-def { background: var(--teal-bg); color: var(--teal); }
+.cat-risk { background: var(--red-bg); color: var(--red); }
+.cat-pipe { background: var(--purple-bg); color: var(--purple); }
+.cat-test { background: var(--blue-bg); color: var(--blue); }
+.cat-tool { background: var(--amber-bg); color: var(--amber); }
+.q-text-en { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 8px; }
+.q-text-ar { font-size: 13px; color: var(--text2); direction: rtl; text-align: right; line-height: 1.7; margin-bottom: 14px; padding-top: 8px; border-top: 1px solid var(--border); }
+.blank-input {
+  background: var(--bg3);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 7px 12px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--font-mono);
+  width: 220px;
+  transition: border-color .2s, background 0.3s, color 0.3s;
+  display: inline-block;
+}
+.blank-input:focus { outline: none; border-color: var(--teal); }
+.blank-input.correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+.blank-input.wrong { border-color: var(--red); background: var(--red-bg); color: var(--red); }
+.check-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--teal-bg);
+  color: var(--teal);
+  border: 1px solid rgba(45,212,191,0.25);
+  border-radius: var(--radius-xs);
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+  margin-left: 8px;
+}
+.check-btn:hover { background: rgba(45,212,191,0.2); }
+.answer-reveal {
+  display: none;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--green-bg);
+  border-radius: var(--radius-xs);
+  font-size: 13px;
+  color: var(--green);
+  transition: background 0.3s, color 0.3s;
+}
+.answer-reveal.show { display: block; }
+.wrong-reveal {
+  display: none;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--red-bg);
+  border-radius: var(--radius-xs);
+  font-size: 13px;
+  color: var(--red);
+  transition: background 0.3s, color 0.3s;
+}
+.wrong-reveal.show { display: block; }
+
+/* TRUE/FALSE */
+.tf-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: border-color .2s, background 0.3s;
+}
+.tf-buttons { display: flex; gap: 10px; margin-top: 14px; }
+.tf-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border2);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+  background: var(--bg3);
+  color: var(--text2);
+  letter-spacing: .03em;
+}
+.tf-btn:hover { transform: translateY(-1px); }
+.tf-btn.true-btn:hover { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.tf-btn.false-btn:hover { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.tf-btn.selected-true { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.tf-btn.selected-false { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.tf-btn.correct-flash { animation: correctPulse .6s ease; }
+.tf-btn.wrong-flash { animation: wrongPulse .6s ease; }
+@keyframes correctPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+@keyframes wrongPulse { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+.tf-explanation { display: none; margin-top: 12px; padding: 12px 14px; border-radius: var(--radius-xs); font-size: 13px; line-height: 1.65; transition: background 0.3s, border-color 0.3s; }
+.tf-explanation.show { display: block; }
+.tf-exp-correct { background: var(--green-bg); color: var(--text); border-left: 3px solid var(--green); }
+.tf-exp-wrong { background: var(--red-bg); color: var(--text); border-left: 3px solid var(--red); }
+
+/* DISCUSSION */
+.disc-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.disc-reveal-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  border-radius: var(--radius-xs);
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .15s;
+  margin-top: 14px;
+}
+.disc-reveal-btn:hover { background: var(--card2); color: var(--text); }
+.disc-answer {
+  display: none;
+  margin-top: 12px;
+  padding: 16px;
+  background: var(--bg3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--text2);
+  transition: background 0.3s, border-color 0.3s;
+}
+.disc-answer.show { display: block; }
+.disc-answer strong { color: var(--text); }
+.disc-answer .ar-part { direction: rtl; text-align: right; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); color: var(--text3); }
+
+/* ===== TOOLS TABLE ===== */
+.tools-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+.tools-table th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid var(--border); background: var(--bg3); transition: background 0.3s, border-color 0.3s; }
+.tools-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; color: var(--text2); transition: background 0.3s, color 0.3s; }
+.tools-table tr:last-child td { border-bottom: none; }
+.tools-table tr:hover td { background: var(--bg3); }
+code { font-family: var(--font-mono); font-size: 12px; background: var(--card2); color: var(--teal); padding: 2px 6px; border-radius: 4px; transition: background 0.3s, color 0.3s; }
+
+/* ===== BADGES ===== */
+.badge { display: inline-block; border-radius: 99px; padding: 2px 9px; font-size: 11px; font-weight: 700; letter-spacing: .04em; }
+.badge-teal { background: var(--teal-bg); color: var(--teal); }
+.badge-red { background: var(--red-bg); color: var(--red); }
+.badge-blue { background: var(--blue-bg); color: var(--blue); }
+.badge-amber { background: var(--amber-bg); color: var(--amber); }
+.badge-purple { background: var(--purple-bg); color: var(--purple); }
+.badge-green { background: var(--green-bg); color: var(--green); }
+
+/* ===== CHEAT SHEET ===== */
+.cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.cheat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.cheat-title { font-size: 12px; font-weight: 700; color: var(--teal); font-family: var(--font-mono); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .06em; }
+.cheat-body { font-size: 13px; color: var(--text2); line-height: 1.7; }
+.cheat-body .ar { direction: rtl; display: block; color: var(--text3); margin-top: 4px; font-size: 12px; }
+
+.must-know { display: flex; flex-direction: column; gap: 8px; }
+.must-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--red-bg);
+  border: 1px solid rgba(248,113,113,0.15);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.must-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.must-text { font-size: 13.5px; color: var(--text); line-height: 1.65; }
+.must-ar { font-size: 12px; color: var(--text3); direction: rtl; display: block; margin-top: 4px; }
+
+/* ===== PROGRESS SUMMARY ===== */
+.progress-page {}
+.score-card {
+  background: linear-gradient(135deg, var(--teal-bg) 0%, var(--blue-bg) 100%);
+  border: 1px solid rgba(45,212,191,0.2);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 24px;
+  transition: background 0.3s, border-color 0.3s;
+}
+.score-big { font-size: 64px; font-weight: 900; color: var(--teal); }
+.score-label { font-size: 14px; color: var(--text2); }
+.progress-breakdown { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.pb-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; text-align: center; transition: background 0.3s, border-color 0.3s; }
+.pb-val { font-size: 24px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+.pb-label { font-size: 12px; color: var(--text3); }
+.reset-btn {
+  background: var(--red-bg);
+  border: 1px solid rgba(248,113,113,0.2);
+  color: var(--red);
+  border-radius: var(--radius-sm);
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.reset-btn:hover { background: rgba(248,113,113,0.2); }
 
 /* ===== MOBILE HEADER ===== */
 .mobile-header {
@@ -279,18 +666,21 @@ html.dark-mode .hero {
   z-index: 100;
   align-items: center;
   gap: 12px;
+  transition: background 0.3s, border-color 0.3s;
 }
-.hamburger { background: none; border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 6px 10px; color: var(--text); cursor: pointer; font-size: 16px; }
+.hamburger { background: none; border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 6px 10px; color: var(--text); cursor: pointer; font-size: 16px; transition: all 0.3s; }
 .mobile-title { font-size: 14px; font-weight: 700; color: var(--text); }
 .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 200; }
 .mobile-overlay.show { display: block; }
 .sidebar.mobile-open { transform: translateX(0) !important; z-index: 300; }
 
 @media (max-width: 900px) {
-  .grid2, .grid3, .bilingual { grid-template-columns: 1fr; }
+  .grid2, .grid3, .bilingual, .scenario-grid, .cheat-grid, .progress-breakdown { grid-template-columns: 1fr; }
   .bi-en { border-right: none; border-bottom: 1px solid var(--border); }
+  .pipeline { flex-direction: column; }
+  .pipe-stage { border-right: none; border-bottom: 1px solid var(--border); }
+  .pipe-stage:last-child { border-bottom: none; }
 }
-
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
   .sidebar {
@@ -316,12 +706,12 @@ html.dark-mode .hero {
 </head>
 <body>
 
-<div class="mobile-overlay" id="overlay" onclick="closeSidebar()"></div>
-
 <!-- THEME TOGGLE BUTTON -->
 <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
   <span id="themeIcon">🌙</span>
 </button>
+
+<div class="mobile-overlay" id="overlay" onclick="closeSidebar()"></div>
 
 <div class="layout">
 <!-- SIDEBAR -->
@@ -334,20 +724,50 @@ html.dark-mode .hero {
 
   <div class="nav-section">
     <div class="nav-section-label">Material</div>
-    <button class="nav-item active" onclick="showPage('home', this)">📖 Overview</button>
-    <button class="nav-item" onclick="showPage('ch1', this)">⚡ Chapter 1 — Intro CI</button>
-    <button class="nav-item" onclick="showPage('ch2', this)">⚠️ Chapter 2 — Risks</button>
-    <button class="nav-item" onclick="showPage('ch3', this)">🔄 Chapter 3 — Pipeline</button>
-    <button class="nav-item" onclick="showPage('ch4', this)">✅ Chapter 4 — Testing</button>
-    <button class="nav-item" onclick="showPage('cheat', this)">📝 Cheat Sheet</button>
+    <button class="nav-item active" onclick="showPage('home', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      Overview
+    </button>
+    <button class="nav-item" onclick="showPage('ch1', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      Chapter 1 — Intro CI
+    </button>
+    <button class="nav-item" onclick="showPage('ch2', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      Chapter 2 — Risks
+    </button>
+    <button class="nav-item" onclick="showPage('ch3', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+      Chapter 3 — Pipeline
+    </button>
+    <button class="nav-item" onclick="showPage('ch4', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+      Chapter 4 — Testing
+    </button>
+    <button class="nav-item" onclick="showPage('cheat', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      Cheat Sheet
+    </button>
   </div>
 
   <div class="nav-section">
     <div class="nav-section-label">Practice — 50 Questions</div>
-    <button class="nav-item" onclick="showPage('fib', this)">✏️ Fill in Blanks (20Q)</button>
-    <button class="nav-item" onclick="showPage('tf', this)">✔️ True / False (15Q)</button>
-    <button class="nav-item" onclick="showPage('disc', this)">💬 Discussion (15Q)</button>
-    <button class="nav-item" onclick="showPage('progress', this)">📊 My Progress</button>
+    <button class="nav-item" onclick="showPage('fib', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+      Fill in Blanks (20Q)
+    </button>
+    <button class="nav-item" onclick="showPage('tf', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      True / False (15Q)
+    </button>
+    <button class="nav-item" onclick="showPage('disc', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      Discussion (15Q)
+    </button>
+    <button class="nav-item" onclick="showPage('progress', this)">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      My Progress
+    </button>
   </div>
 
   <div class="sidebar-footer">
@@ -400,7 +820,7 @@ html.dark-mode .hero {
 
   <div class="alert alert-amber">
     <strong>⚡ Exam tip:</strong> Questions will be Fill in the Blanks, True/False, and Discussion. Focus on the 7 practices, 4 risks, tool names (CruiseControl, JUnit, Checkstyle, JDepend, Doxygen).
-    <br><strong>نصيحة:</strong> الاختبار سيحتوي على ملء الفراغات، صح وخطأ، وأسئلة نقاش. ركّز على الممارسات السبع والمخاطر الأربع.
+    <br><strong>نصيحة الاختبار:</strong> ستركز على الممارسات السبع والمخاطر الأربع والأدوات الرئيسية.
   </div>
 </div>
 
@@ -409,12 +829,9 @@ html.dark-mode .hero {
   <div class="section-header">
     <div class="section-eyebrow">Chapter 1</div>
     <div class="section-title">Introducing Continuous Integration</div>
-    <div class="section-sub">المصطلحات الأساسية · الممارسات السبع · قيمة CI</div>
   </div>
   <div class="card">
-    <h3 style="color:var(--text);margin-bottom:15px">📌 Definition</h3>
-    <p style="color:var(--text2);margin-bottom:15px"><strong>Continuous Integration (CI)</strong> is a software development practice where members of a team integrate their work frequently — usually each person integrates at least daily — which results in multiple integrations per day.</p>
-    <p style="color:var(--text2)"><strong>الـ CI (التكامل المستمر)</strong> هي ممارسة تطوير حيث يدمج أعضاء الفريق عملهم بشكل متكرر — عادة مرة واحدة على الأقل يوميا — مما يؤدي إلى عمليات تكامل متعددة يوميا.</p>
+    <p style="color:var(--text2);margin-bottom:15px"><strong>Continuous Integration (CI):</strong> A software development practice where members of a team integrate their work frequently — usually each person integrates at least daily — resulting in multiple integrations per day.</p>
   </div>
   <div class="card">
     <h3 style="color:var(--text);margin-bottom:15px">✨ The 7 CI Practices</h3>
@@ -434,13 +851,12 @@ html.dark-mode .hero {
   <div class="section-header">
     <div class="section-eyebrow">Chapter 2</div>
     <div class="section-title">Reducing Risks Using CI</div>
-    <div class="section-sub">4 مخاطر رئيسية · سيناريوهات حقيقية · حلول · أدوات</div>
   </div>
   <div class="card">
     <h3 style="color:var(--text);margin-bottom:15px">⚠️ The 4 Major Risks</h3>
     <div style="margin-bottom:15px">
       <strong style="color:var(--red)">1. Lack of Deployable Software</strong>
-      <p style="color:var(--text2);margin-top:5px">Solution: Use separate integration machine (CruiseControl), put everything in VCS, use Ant/NAnt/Rake</p>
+      <p style="color:var(--text2);margin-top:5px">Solution: Use CruiseControl, put everything in VCS, use Ant/NAnt/Rake</p>
     </div>
     <div style="margin-bottom:15px">
       <strong style="color:var(--red)">2. Late Discovery of Defects</strong>
@@ -461,7 +877,6 @@ html.dark-mode .hero {
   <div class="section-header">
     <div class="section-eyebrow">Chapter 3</div>
     <div class="section-title">The Deployment Pipeline</div>
-    <div class="section-sub">مراحل النشر · الموازنة · موثوقية النظام</div>
   </div>
   <div class="card">
     <h3 style="color:var(--text);margin-bottom:15px">🔄 Pipeline Stages</h3>
@@ -498,7 +913,6 @@ html.dark-mode .hero {
   <div class="section-header">
     <div class="section-eyebrow">Chapter 4</div>
     <div class="section-title">Testing Automation</div>
-    <div class="section-sub">أنواع الاختبارات · التطبيق · المبادلات</div>
   </div>
   <div class="card">
     <h3 style="color:var(--text);margin-bottom:15px">✅ Types of Tests</h3>
@@ -543,7 +957,7 @@ html.dark-mode .hero {
   </div>
   <div class="card">
     <p style="color:var(--text);margin-bottom:15px"><strong>Q1:</strong> Continuous Integration means integrating at least _______ times per day.</p>
-    <input type="text" class="fib-input" style="padding:8px;border:1px solid var(--border);border-radius:5px;width:200px" placeholder="Answer">
+    <input type="text" placeholder="Your answer..." style="padding:8px;border:1px solid var(--border);border-radius:5px;width:200px;background:var(--bg3);color:var(--text)">
   </div>
 </div>
 
@@ -577,9 +991,9 @@ html.dark-mode .hero {
     <div class="section-eyebrow">Performance</div>
     <div class="section-title">My Progress</div>
   </div>
-  <div class="card" style="text-align:center;padding:40px;background:linear-gradient(135deg,var(--teal-bg),var(--blue-bg))">
-    <div style="font-size:64px;font-weight:900;color:var(--teal);margin-bottom:10px">0%</div>
-    <p style="color:var(--text2);margin-bottom:20px">Exam Progress</p>
+  <div class="score-card">
+    <div class="score-big">0%</div>
+    <div class="score-label">Exam Progress</div>
   </div>
 </div>
 
@@ -591,23 +1005,28 @@ html.dark-mode .hero {
 function toggleTheme() {
   const html = document.documentElement;
   const icon = document.getElementById('themeIcon');
-  if (html.classList.contains('dark-mode')) {
-    html.classList.remove('dark-mode');
+  if (html.classList.contains('light-mode')) {
+    html.classList.remove('light-mode');
     icon.textContent = '🌙';
-    localStorage.setItem('theme', 'light');
-  } else {
-    html.classList.add('dark-mode');
-    icon.textContent = '☀️';
     localStorage.setItem('theme', 'dark');
+  } else {
+    html.classList.add('light-mode');
+    icon.textContent = '☀️';
+    localStorage.setItem('theme', 'light');
   }
 }
 
 // Load saved theme
 window.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('theme') || 'light';
-  if (saved === 'dark') {
-    document.documentElement.classList.add('dark-mode');
-    document.getElementById('themeIcon').textContent = '☀️';
+  const saved = localStorage.getItem('theme') || 'dark';
+  const html = document.documentElement;
+  const icon = document.getElementById('themeIcon');
+  if (saved === 'light') {
+    html.classList.add('light-mode');
+    icon.textContent = '☀️';
+  } else {
+    html.classList.remove('light-mode');
+    icon.textContent = '🌙';
   }
 });
 
