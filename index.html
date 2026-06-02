@@ -95,22 +95,12 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.theme-toggle:hover {
-  transform: scale(1.1);
-}
+.theme-toggle:hover { transform: scale(1.1); }
 
-html.dark-mode .theme-toggle {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
+html.dark-mode .theme-toggle { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
 
 @media (max-width: 768px) {
-  .theme-toggle {
-    top: 12px;
-    right: 12px;
-    width: 45px;
-    height: 45px;
-    font-size: 20px;
-  }
+  .theme-toggle { top: 12px; right: 12px; width: 45px; height: 45px; font-size: 20px; }
 }
 
 /* ===== SIDEBAR ===== */
@@ -127,12 +117,10 @@ html.dark-mode .theme-toggle {
   flex-direction: column;
   transition: background 0.3s;
 }
-
 .sidebar-logo {
   padding: 24px 20px 16px;
   border-bottom: 1px solid var(--border);
 }
-
 .logo-badge {
   display: inline-flex;
   align-items: center;
@@ -143,14 +131,12 @@ html.dark-mode .theme-toggle {
   padding: 4px 10px;
   margin-bottom: 8px;
 }
-
 .logo-badge span { font-size: 11px; font-weight: 600; color: var(--teal); letter-spacing: .06em; text-transform: uppercase; }
 .logo-title { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.3; }
 .logo-sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
 
 .nav-section { padding: 12px 12px 4px; }
 .nav-section-label { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; padding: 0 8px; margin-bottom: 4px; }
-
 .nav-item {
   display: flex;
   align-items: center;
@@ -166,7 +152,6 @@ html.dark-mode .theme-toggle {
   width: 100%;
   text-align: left;
 }
-
 .nav-item:hover { background: var(--bg3); color: var(--text); }
 .nav-item.active { background: var(--teal-bg); color: var(--teal); font-weight: 500; }
 .nav-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: .7; }
@@ -179,7 +164,6 @@ html.dark-mode .theme-toggle {
   font-size: 11.5px;
   color: var(--text3);
 }
-
 .progress-track { height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; }
 .progress-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width .4s; }
 
@@ -214,7 +198,6 @@ html.dark-mode .hero {
   background: radial-gradient(circle, rgba(45,212,191,0.12) 0%, transparent 70%);
   pointer-events: none;
 }
-
 .hero-eyebrow { font-size: 11px; font-weight: 600; color: var(--teal); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
 .hero-title { font-size: 28px; font-weight: 800; color: var(--text); line-height: 1.2; margin-bottom: 8px; }
 .hero-sub { font-size: 15px; color: var(--text2); max-width: 540px; }
@@ -238,7 +221,6 @@ html.dark-mode .hero {
   overflow: hidden;
   margin-bottom: 16px;
 }
-
 .bi-en { padding: 20px; border-right: 1px solid var(--border); }
 .bi-ar { padding: 20px; background: var(--bg2); direction: rtl; text-align: right; }
 .bi-lang-tag {
@@ -251,7 +233,6 @@ html.dark-mode .hero {
   border-radius: 99px;
   margin-bottom: 10px;
 }
-
 .en-tag { background: var(--blue-bg); color: var(--blue); }
 .ar-tag { background: var(--amber-bg); color: var(--amber); }
 .bi-en p, .bi-ar p { font-size: 14px; line-height: 1.75; color: var(--text2); }
@@ -267,53 +248,10 @@ html.dark-mode .hero {
   margin-bottom: 16px;
   transition: background 0.3s;
 }
-
 .card-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
 .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-
-/* ===== TERMS ===== */
-.term-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 16px;
-}
-
-.term-name { font-size: 13px; font-weight: 700; color: var(--teal); font-family: var(--font-mono); margin-bottom: 8px; }
-.term-en { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 8px; }
-.term-ar { font-size: 13px; color: var(--text2); direction: rtl; text-align: right; line-height: 1.65; padding-top: 8px; border-top: 1px solid var(--border); }
-
-/* ===== PRACTICE STEPS ===== */
-.practice {
-  display: flex;
-  gap: 14px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 16px;
-  margin-bottom: 8px;
-  align-items: flex-start;
-}
-
-.practice:hover { border-color: var(--border2); }
-
-.p-num {
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  background: var(--teal-bg);
-  color: var(--teal);
-  font-size: 13px;
-  font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-
-.p-content {}
-.p-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.p-en { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 6px; }
-.p-ar { font-size: 13px; color: var(--text3); direction: rtl; text-align: right; line-height: 1.65; border-top: 1px solid var(--border); padding-top: 6px; margin-top: 4px; }
 
 /* ===== ALERTS ===== */
 .alert {
@@ -324,7 +262,6 @@ html.dark-mode .hero {
   line-height: 1.65;
   border-left: 3px solid;
 }
-
 .alert-teal { background: var(--teal-bg); border-left-color: var(--teal); color: var(--text); }
 .alert-amber { background: var(--amber-bg); border-left-color: var(--amber); color: var(--text); }
 .alert-red { background: var(--red-bg); border-left-color: var(--red); color: var(--text); }
@@ -343,7 +280,6 @@ html.dark-mode .hero {
   align-items: center;
   gap: 12px;
 }
-
 .hamburger { background: none; border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 6px 10px; color: var(--text); cursor: pointer; font-size: 16px; }
 .mobile-title { font-size: 14px; font-weight: 700; color: var(--text); }
 .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 200; }
@@ -408,7 +344,7 @@ html.dark-mode .hero {
 
   <div class="nav-section">
     <div class="nav-section-label">Practice — 50 Questions</div>
-    <button class="nav-item" onclick="showPage('fib', this)">✏️ Fill in the Blanks (20Q)</button>
+    <button class="nav-item" onclick="showPage('fib', this)">✏️ Fill in Blanks (20Q)</button>
     <button class="nav-item" onclick="showPage('tf', this)">✔️ True / False (15Q)</button>
     <button class="nav-item" onclick="showPage('disc', this)">💬 Discussion (15Q)</button>
     <button class="nav-item" onclick="showPage('progress', this)">📊 My Progress</button>
@@ -475,7 +411,23 @@ html.dark-mode .hero {
     <div class="section-title">Introducing Continuous Integration</div>
     <div class="section-sub">المصطلحات الأساسية · الممارسات السبع · قيمة CI</div>
   </div>
-  <p style="color:var(--text2);margin-bottom:20px">CI is a software development practice where members of a team integrate their work frequently. This chapter covers key terms, 7 core practices, and 5 values of CI.</p>
+  <div class="card">
+    <h3 style="color:var(--text);margin-bottom:15px">📌 Definition</h3>
+    <p style="color:var(--text2);margin-bottom:15px"><strong>Continuous Integration (CI)</strong> is a software development practice where members of a team integrate their work frequently — usually each person integrates at least daily — which results in multiple integrations per day.</p>
+    <p style="color:var(--text2)"><strong>الـ CI (التكامل المستمر)</strong> هي ممارسة تطوير حيث يدمج أعضاء الفريق عملهم بشكل متكرر — عادة مرة واحدة على الأقل يوميا — مما يؤدي إلى عمليات تكامل متعددة يوميا.</p>
+  </div>
+  <div class="card">
+    <h3 style="color:var(--text);margin-bottom:15px">✨ The 7 CI Practices</h3>
+    <ol style="color:var(--text2);margin-left:20px">
+      <li>Commit Code Frequently</li>
+      <li>Don't Commit Broken Code</li>
+      <li>Fix Broken Builds Immediately</li>
+      <li>Write Automated Developer Tests</li>
+      <li>All Tests and Inspections Must Pass</li>
+      <li>Run Private Builds</li>
+      <li>Avoid Getting Broken Code</li>
+    </ol>
+  </div>
 </div>
 
 <div id="page-ch2" class="page">
@@ -484,25 +436,85 @@ html.dark-mode .hero {
     <div class="section-title">Reducing Risks Using CI</div>
     <div class="section-sub">4 مخاطر رئيسية · سيناريوهات حقيقية · حلول · أدوات</div>
   </div>
-  <p style="color:var(--text2);margin-bottom:20px">This chapter explores 4 major risks: (1) Lack of Deployable Software, (2) Late Discovery of Defects, (3) Lack of Project Visibility, (4) Low-Quality Software.</p>
+  <div class="card">
+    <h3 style="color:var(--text);margin-bottom:15px">⚠️ The 4 Major Risks</h3>
+    <div style="margin-bottom:15px">
+      <strong style="color:var(--red)">1. Lack of Deployable Software</strong>
+      <p style="color:var(--text2);margin-top:5px">Solution: Use separate integration machine (CruiseControl), put everything in VCS, use Ant/NAnt/Rake</p>
+    </div>
+    <div style="margin-bottom:15px">
+      <strong style="color:var(--red)">2. Late Discovery of Defects</strong>
+      <p style="color:var(--text2);margin-top:5px">Solution: Write JUnit tests, run all tests every build, add code coverage tools</p>
+    </div>
+    <div style="margin-bottom:15px">
+      <strong style="color:var(--red)">3. Lack of Project Visibility</strong>
+      <p style="color:var(--text2);margin-top:5px">Solution: Configure CruiseControl email/SMS, use Doxygen for auto UML</p>
+    </div>
+    <div>
+      <strong style="color:var(--red)">4. Low-Quality Software</strong>
+      <p style="color:var(--text2);margin-top:5px">Solution: Use Checkstyle, PMD, JDepend, Simian for code quality</p>
+    </div>
+  </div>
 </div>
 
 <div id="page-ch3" class="page">
   <div class="section-header">
     <div class="section-eyebrow">Chapter 3</div>
     <div class="section-title">The Deployment Pipeline</div>
-    <div class="section-sub">مراحل النشر · الموازنة · موثوقية النظام · المبادئ الخمسة</div>
+    <div class="section-sub">مراحل النشر · الموازنة · موثوقية النظام</div>
   </div>
-  <p style="color:var(--text2);margin-bottom:20px">The deployment pipeline is an automated manifestation of your process for getting software from version control into production. It balances confidence with feedback speed.</p>
+  <div class="card">
+    <h3 style="color:var(--text);margin-bottom:15px">🔄 Pipeline Stages</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
+      <div style="padding:15px;background:var(--bg3);border-radius:8px">
+        <strong style="color:var(--teal)">Stage 1: Commit</strong>
+        <p style="color:var(--text2);font-size:12px;margin-top:5px">Compile, Unit tests, Static analysis</p>
+      </div>
+      <div style="padding:15px;background:var(--bg3);border-radius:8px">
+        <strong style="color:var(--purple)">Stage 2: Acceptance Test</strong>
+        <p style="color:var(--text2);font-size:12px;margin-top:5px">Automated acceptance tests</p>
+      </div>
+      <div style="padding:15px;background:var(--bg3);border-radius:8px">
+        <strong style="color:var(--amber)">Stage 3: Manual Testing</strong>
+        <p style="color:var(--text2);font-size:12px;margin-top:5px">UAT, Exploratory testing</p>
+      </div>
+      <div style="padding:15px;background:var(--bg3);border-radius:8px">
+        <strong style="color:var(--blue)">Stage 4: Production</strong>
+        <p style="color:var(--text2);font-size:12px;margin-top:5px">Release to end users</p>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="color:var(--text);margin-bottom:15px">📊 System Reliability Math</h3>
+    <div style="text-align:center;padding:20px;background:var(--bg3);border-radius:8px">
+      <div style="font-size:28px;color:var(--text);font-weight:bold;margin-bottom:10px">0.90 × 0.90 × 0.90</div>
+      <div style="font-size:36px;color:var(--red);font-weight:bold;margin-bottom:10px">= 73%</div>
+      <p style="color:var(--text2);font-size:13px">3 components × 90% reliable each = only 73% overall system reliability</p>
+    </div>
+  </div>
 </div>
 
 <div id="page-ch4" class="page">
   <div class="section-header">
     <div class="section-eyebrow">Chapter 4</div>
     <div class="section-title">Testing Automation</div>
-    <div class="section-sub">اختبار الوحدات · اختبار المكونات · اختبارات النظام</div>
+    <div class="section-sub">أنواع الاختبارات · التطبيق · المبادلات</div>
   </div>
-  <p style="color:var(--text2);margin-bottom:20px">This chapter covers Unit, Component, and System tests, the developer's perspective limitation, and the automation trade-off equation.</p>
+  <div class="card">
+    <h3 style="color:var(--text);margin-bottom:15px">✅ Types of Tests</h3>
+    <div style="margin-bottom:15px">
+      <strong style="color:var(--teal)">Unit Tests</strong>
+      <p style="color:var(--text2);margin-top:5px">Tests individual methods/functions in isolation. Written by developers. Fast, run frequently.</p>
+    </div>
+    <div style="margin-bottom:15px">
+      <strong style="color:var(--blue)">Component Tests</strong>
+      <p style="color:var(--text2);margin-top:5px">Tests a component with dependencies stubbed. Bridges gap between unit and integration.</p>
+    </div>
+    <div>
+      <strong style="color:var(--purple)">System/Integration Tests</strong>
+      <p style="color:var(--text2);margin-top:5px">Tests the full system with all dependencies. Slowest but most comprehensive.</p>
+    </div>
+  </div>
 </div>
 
 <div id="page-cheat" class="page">
@@ -511,26 +523,27 @@ html.dark-mode .hero {
     <div class="section-title">Cheat Sheet</div>
   </div>
   <div class="card">
-    <h3 style="color:var(--text);margin-bottom:10px">7 CI Practices</h3>
-    <p style="color:var(--text2);font-size:13px">1. Commit Frequently · 2. Don't Commit Broken Code · 3. Fix Broken Builds Immediately · 4. Write Automated Tests · 5. All Tests Must Pass · 6. Run Private Builds · 7. Avoid Getting Broken Code</p>
-  </div>
-  <div class="card">
-    <h3 style="color:var(--text);margin-bottom:10px">4 CI Values</h3>
-    <p style="color:var(--text2);font-size:13px">1. Reduce Risks · 2. Reduce Repetition · 3. Deployable Software · 4. Better Visibility · 5. Greater Confidence</p>
+    <h3 style="color:var(--text);margin-bottom:15px">🔑 Key Tools</h3>
+    <p style="color:var(--text2);line-height:1.8">
+      <strong>CruiseControl</strong> - CI server<br>
+      <strong>JUnit</strong> - Testing framework<br>
+      <strong>Checkstyle</strong> - Coding standards<br>
+      <strong>JDepend</strong> - Architecture compliance<br>
+      <strong>Doxygen</strong> - Auto-generate UML docs<br>
+      <strong>Ant/NAnt/Rake</strong> - Build automation
+    </p>
   </div>
 </div>
 
-<!-- ==================== PRACTICE SECTIONS ==================== -->
+<!-- ==================== PRACTICE ==================== -->
 <div id="page-fib" class="page">
   <div class="section-header">
     <div class="section-eyebrow">Practice</div>
-    <div class="section-title">Fill in the Blanks (20 Questions)</div>
+    <div class="section-title">Fill in the Blanks (20Q)</div>
   </div>
   <div class="card">
-    <p style="color:var(--text2);margin-bottom:15px">Continuous Integration (CI) is a practice where team members integrate their work <strong>frequently</strong>, usually at least <input type="text" class="blank-input" placeholder="once per day"> times per day.</p>
-  </div>
-  <div class="card">
-    <p style="color:var(--text2);margin-bottom:15px">The <input type="text" class="blank-input" placeholder="private build"> is running a build locally before committing to VCS to reduce breaking the integration build.</p>
+    <p style="color:var(--text);margin-bottom:15px"><strong>Q1:</strong> Continuous Integration means integrating at least _______ times per day.</p>
+    <input type="text" class="fib-input" style="padding:8px;border:1px solid var(--border);border-radius:5px;width:200px" placeholder="Answer">
   </div>
 </div>
 
@@ -540,10 +553,10 @@ html.dark-mode .hero {
     <div class="section-title">True / False (15 Questions)</div>
   </div>
   <div class="card">
-    <p style="color:var(--text);margin-bottom:15px"><strong>Q1:</strong> Continuous Integration means continuous compilation of code.</p>
+    <p style="color:var(--text);margin-bottom:15px"><strong>Q1:</strong> Continuous Integration means the same as Continuous Compilation.</p>
     <div style="display:flex;gap:10px;margin-top:10px">
-      <button style="padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;cursor:pointer">True</button>
-      <button style="padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;cursor:pointer">False</button>
+      <button style="padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;cursor:pointer;color:var(--text)">True</button>
+      <button style="padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;cursor:pointer;color:var(--text)">False</button>
     </div>
   </div>
 </div>
@@ -551,11 +564,11 @@ html.dark-mode .hero {
 <div id="page-disc" class="page">
   <div class="section-header">
     <div class="section-eyebrow">Practice</div>
-    <div class="section-title">Discussion Questions (15 Questions)</div>
+    <div class="section-title">Discussion (15 Questions)</div>
   </div>
   <div class="card">
-    <p style="color:var(--text);margin-bottom:15px"><strong>Q1:</strong> What are the 7 core practices of Continuous Integration? Explain each one in 2-3 sentences.</p>
-    <textarea style="width:100%;padding:10px;border:1px solid var(--border);border-radius:5px;background:var(--bg3);color:var(--text);font-family:var(--font);min-height:100px" placeholder="Type your answer here..."></textarea>
+    <p style="color:var(--text);margin-bottom:15px"><strong>Q1:</strong> Explain the 7 CI practices in your own words.</p>
+    <textarea style="width:100%;padding:10px;border:1px solid var(--border);border-radius:5px;background:var(--bg3);color:var(--text);font-family:var(--font);min-height:120px" placeholder="Type your answer..."></textarea>
   </div>
 </div>
 
@@ -564,12 +577,9 @@ html.dark-mode .hero {
     <div class="section-eyebrow">Performance</div>
     <div class="section-title">My Progress</div>
   </div>
-  <div class="card" style="text-align:center;padding:30px">
-    <div style="font-size:48px;font-weight:900;color:var(--teal);margin-bottom:10px" id="progress-score">0</div>
-    <p style="color:var(--text2);margin-bottom:20px">Questions Completed / 50</p>
-    <div style="height:8px;background:var(--bg3);border-radius:4px;overflow:hidden">
-      <div id="progress-bar" style="height:100%;width:0%;background:linear-gradient(to right, var(--teal), var(--blue));transition:width 0.3s"></div>
-    </div>
+  <div class="card" style="text-align:center;padding:40px;background:linear-gradient(135deg,var(--teal-bg),var(--blue-bg))">
+    <div style="font-size:64px;font-weight:900;color:var(--teal);margin-bottom:10px">0%</div>
+    <p style="color:var(--text2);margin-bottom:20px">Exam Progress</p>
   </div>
 </div>
 
@@ -577,37 +587,36 @@ html.dark-mode .hero {
 </div>
 
 <script>
-// Theme Toggle Function
+// Theme Toggle
 function toggleTheme() {
   const html = document.documentElement;
-  const themeIcon = document.getElementById('themeIcon');
-  
+  const icon = document.getElementById('themeIcon');
   if (html.classList.contains('dark-mode')) {
     html.classList.remove('dark-mode');
-    themeIcon.textContent = '🌙';
+    icon.textContent = '🌙';
     localStorage.setItem('theme', 'light');
   } else {
     html.classList.add('dark-mode');
-    themeIcon.textContent = '☀️';
+    icon.textContent = '☀️';
     localStorage.setItem('theme', 'dark');
   }
 }
 
-// Load theme preference on page load
+// Load saved theme
 window.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  if (savedTheme === 'dark') {
+  const saved = localStorage.getItem('theme') || 'light';
+  if (saved === 'dark') {
     document.documentElement.classList.add('dark-mode');
     document.getElementById('themeIcon').textContent = '☀️';
   }
 });
 
-// Page Navigation
-function showPage(pageId, element) {
+// Navigation
+function showPage(pageId, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + pageId).classList.add('active');
-  if (element) element.classList.add('active');
+  if (el) el.classList.add('active');
   closeSidebar();
 }
 
@@ -623,8 +632,7 @@ function closeSidebar() {
 
 window.addEventListener('resize', () => {
   if (window.innerWidth > 768) {
-    document.getElementById('sidebar').classList.remove('mobile-open');
-    document.getElementById('overlay').classList.remove('show');
+    closeSidebar();
   }
 });
 </script>
