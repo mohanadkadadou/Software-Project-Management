@@ -7,6 +7,8 @@
 <style>
 /* ===== RESET & BASE ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* LIGHT THEME (Default) */
 :root {
   --bg: #ffffff;
   --bg2: #f8f9fa;
@@ -39,6 +41,22 @@
   --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
   --shadow: 0 4px 24px rgba(0,0,0,0.1);
 }
+
+/* DARK THEME */
+html.dark-mode {
+  --bg: #0d0f14;
+  --bg2: #13161e;
+  --bg3: #1a1e29;
+  --card: #1e2333;
+  --card2: #252c3f;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.15);
+  --text: #e8eaf0;
+  --text2: #9ba3bc;
+  --text3: #6b7494;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font);
@@ -46,6 +64,7 @@ body {
   color: var(--text);
   line-height: 1.7;
   font-size: 15px;
+  transition: background 0.3s, color 0.3s;
 }
 
 /* ===== SCROLLBAR ===== */
@@ -55,6 +74,44 @@ body {
 
 /* ===== LAYOUT ===== */
 .layout { display: flex; min-height: 100vh; }
+
+/* ===== THEME TOGGLE ===== */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 24px;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+html.dark-mode .theme-toggle {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 12px;
+    right: 12px;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+}
 
 /* ===== SIDEBAR ===== */
 .sidebar {
@@ -68,11 +125,14 @@ body {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  transition: background 0.3s;
 }
+
 .sidebar-logo {
   padding: 24px 20px 16px;
   border-bottom: 1px solid var(--border);
 }
+
 .logo-badge {
   display: inline-flex;
   align-items: center;
@@ -83,12 +143,14 @@ body {
   padding: 4px 10px;
   margin-bottom: 8px;
 }
+
 .logo-badge span { font-size: 11px; font-weight: 600; color: var(--teal); letter-spacing: .06em; text-transform: uppercase; }
 .logo-title { font-size: 17px; font-weight: 700; color: var(--text); line-height: 1.3; }
 .logo-sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
 
 .nav-section { padding: 12px 12px 4px; }
 .nav-section-label { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; padding: 0 8px; margin-bottom: 4px; }
+
 .nav-item {
   display: flex;
   align-items: center;
@@ -104,6 +166,7 @@ body {
   width: 100%;
   text-align: left;
 }
+
 .nav-item:hover { background: var(--bg3); color: var(--text); }
 .nav-item.active { background: var(--teal-bg); color: var(--teal); font-weight: 500; }
 .nav-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: .7; }
@@ -116,11 +179,12 @@ body {
   font-size: 11.5px;
   color: var(--text3);
 }
+
 .progress-track { height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; }
 .progress-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width .4s; }
 
 /* ===== MAIN ===== */
-.main { flex: 1; overflow-y: auto; }
+.main { flex: 1; overflow-y: auto; transition: background 0.3s; }
 
 /* ===== PAGES ===== */
 .page { display: none; padding: 32px 40px; max-width: 900px; }
@@ -135,7 +199,13 @@ body {
   margin-bottom: 32px;
   position: relative;
   overflow: hidden;
+  transition: background 0.3s;
 }
+
+html.dark-mode .hero {
+  background: linear-gradient(135deg, var(--bg3) 0%, #1a2040 100%);
+}
+
 .hero::before {
   content: '';
   position: absolute;
@@ -144,6 +214,7 @@ body {
   background: radial-gradient(circle, rgba(45,212,191,0.12) 0%, transparent 70%);
   pointer-events: none;
 }
+
 .hero-eyebrow { font-size: 11px; font-weight: 600; color: var(--teal); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
 .hero-title { font-size: 28px; font-weight: 800; color: var(--text); line-height: 1.2; margin-bottom: 8px; }
 .hero-sub { font-size: 15px; color: var(--text2); max-width: 540px; }
@@ -167,6 +238,7 @@ body {
   overflow: hidden;
   margin-bottom: 16px;
 }
+
 .bi-en { padding: 20px; border-right: 1px solid var(--border); }
 .bi-ar { padding: 20px; background: var(--bg2); direction: rtl; text-align: right; }
 .bi-lang-tag {
@@ -179,6 +251,7 @@ body {
   border-radius: 99px;
   margin-bottom: 10px;
 }
+
 .en-tag { background: var(--blue-bg); color: var(--blue); }
 .ar-tag { background: var(--amber-bg); color: var(--amber); }
 .bi-en p, .bi-ar p { font-size: 14px; line-height: 1.75; color: var(--text2); }
@@ -192,7 +265,9 @@ body {
   border-radius: var(--radius);
   padding: 20px;
   margin-bottom: 16px;
+  transition: background 0.3s;
 }
+
 .card-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
@@ -205,6 +280,7 @@ body {
   border-radius: var(--radius-sm);
   padding: 16px;
 }
+
 .term-name { font-size: 13px; font-weight: 700; color: var(--teal); font-family: var(--font-mono); margin-bottom: 8px; }
 .term-en { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 8px; }
 .term-ar { font-size: 13px; color: var(--text2); direction: rtl; text-align: right; line-height: 1.65; padding-top: 8px; border-top: 1px solid var(--border); }
@@ -220,7 +296,9 @@ body {
   margin-bottom: 8px;
   align-items: flex-start;
 }
+
 .practice:hover { border-color: var(--border2); }
+
 .p-num {
   width: 30px; height: 30px;
   border-radius: 50%;
@@ -231,6 +309,7 @@ body {
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
+
 .p-content {}
 .p-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
 .p-en { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 6px; }
@@ -245,347 +324,12 @@ body {
   line-height: 1.65;
   border-left: 3px solid;
 }
+
 .alert-teal { background: var(--teal-bg); border-left-color: var(--teal); color: var(--text); }
 .alert-amber { background: var(--amber-bg); border-left-color: var(--amber); color: var(--text); }
 .alert-red { background: var(--red-bg); border-left-color: var(--red); color: var(--text); }
 .alert-purple { background: var(--purple-bg); border-left-color: var(--purple); color: var(--text); }
 .alert-blue { background: var(--blue-bg); border-left-color: var(--blue); color: var(--text); }
-
-/* ===== RISK CARDS ===== */
-.risk-card {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-.risk-header {
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--bg3);
-}
-.risk-num {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: var(--red-bg);
-  color: var(--red);
-  font-size: 12px;
-  font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.risk-title { font-size: 15px; font-weight: 600; color: var(--text); }
-.risk-body { padding: 20px; }
-.scenario-block {
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 14px;
-  margin-bottom: 12px;
-}
-.scenario-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--amber);
-  margin-bottom: 8px;
-}
-.scenario-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.sc-col-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; font-weight: 600; }
-.sc-col-text { font-size: 13px; color: var(--text2); line-height: 1.65; }
-.sc-col-text.ar { direction: rtl; text-align: right; }
-.solution-block {
-  background: var(--green-bg);
-  border: 1px solid rgba(74,222,128,0.15);
-  border-radius: var(--radius-sm);
-  padding: 14px;
-  margin-top: 12px;
-}
-.solution-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
-.tools-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.tool-pill {
-  background: var(--card2);
-  border: 1px solid var(--border);
-  border-radius: 99px;
-  padding: 3px 10px;
-  font-size: 12px;
-  color: var(--text2);
-  font-family: var(--font-mono);
-}
-
-/* ===== PIPELINE ===== */
-.pipeline { display: flex; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
-.pipe-stage { flex: 1; padding: 16px 12px; border-right: 1px solid var(--border); text-align: center; background: var(--card); transition: background .2s; }
-.pipe-stage:last-child { border-right: none; }
-.pipe-stage:hover { background: var(--card2); }
-.ps-num { width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
-.ps-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.ps-desc { font-size: 11px; color: var(--text3); line-height: 1.5; }
-.ps-badge { font-size: 10px; border-radius: 99px; padding: 2px 8px; margin-top: 6px; display: inline-block; font-weight: 600; }
-
-/* ===== RELIABILITY CALC ===== */
-.reliability-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px;
-  text-align: center;
-  margin-bottom: 16px;
-}
-.rel-formula { font-size: 26px; font-weight: 800; color: var(--text); font-family: var(--font-mono); margin-bottom: 6px; }
-.rel-result { font-size: 40px; font-weight: 900; color: var(--red); margin-bottom: 8px; }
-.rel-note { font-size: 13px; color: var(--text3); }
-
-/* ===== QUESTION STYLES ===== */
-.q-section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.q-type-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 99px;
-  padding: 5px 14px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .05em;
-}
-.score-display {
-  font-size: 13px;
-  color: var(--text2);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 6px 14px;
-}
-.score-val { font-weight: 700; color: var(--teal); }
-
-/* FILL IN BLANK */
-.fib-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 12px;
-  transition: border-color .2s;
-}
-.fib-card:hover { border-color: var(--border2); }
-.q-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-.q-num { font-size: 11px; font-weight: 700; color: var(--text3); font-family: var(--font-mono); }
-.q-cat { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-radius: 99px; padding: 2px 8px; }
-.cat-def { background: var(--teal-bg); color: var(--teal); }
-.cat-risk { background: var(--red-bg); color: var(--red); }
-.cat-pipe { background: var(--purple-bg); color: var(--purple); }
-.cat-test { background: var(--blue-bg); color: var(--blue); }
-.cat-tool { background: var(--amber-bg); color: var(--amber); }
-.q-text-en { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 8px; }
-.q-text-ar { font-size: 13px; color: var(--text2); direction: rtl; text-align: right; line-height: 1.7; margin-bottom: 14px; padding-top: 8px; border-top: 1px solid var(--border); }
-.blank-input {
-  background: var(--bg3);
-  border: 1.5px solid var(--border2);
-  border-radius: var(--radius-xs);
-  padding: 7px 12px;
-  color: var(--text);
-  font-size: 14px;
-  font-family: var(--font-mono);
-  width: 220px;
-  transition: border-color .2s;
-  display: inline-block;
-}
-.blank-input:focus { outline: none; border-color: var(--teal); }
-.blank-input.correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
-.blank-input.wrong { border-color: var(--red); background: var(--red-bg); color: var(--red); }
-.check-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--teal-bg);
-  color: var(--teal);
-  border: 1px solid rgba(45,212,191,0.25);
-  border-radius: var(--radius-xs);
-  padding: 7px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .15s;
-  margin-left: 8px;
-}
-.check-btn:hover { background: rgba(45,212,191,0.2); }
-.answer-reveal {
-  display: none;
-  margin-top: 10px;
-  padding: 10px 14px;
-  background: var(--green-bg);
-  border-radius: var(--radius-xs);
-  font-size: 13px;
-  color: var(--green);
-}
-.answer-reveal.show { display: block; }
-.wrong-reveal {
-  display: none;
-  margin-top: 10px;
-  padding: 10px 14px;
-  background: var(--red-bg);
-  border-radius: var(--radius-xs);
-  font-size: 13px;
-  color: var(--red);
-}
-.wrong-reveal.show { display: block; }
-
-/* TRUE/FALSE */
-.tf-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 12px;
-  transition: border-color .2s;
-}
-.tf-buttons { display: flex; gap: 10px; margin-top: 14px; }
-.tf-btn {
-  flex: 1;
-  padding: 10px;
-  border-radius: var(--radius-sm);
-  border: 1.5px solid var(--border2);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .15s;
-  background: var(--bg3);
-  color: var(--text2);
-  letter-spacing: .03em;
-}
-.tf-btn:hover { transform: translateY(-1px); }
-.tf-btn.true-btn:hover { background: var(--green-bg); border-color: var(--green); color: var(--green); }
-.tf-btn.false-btn:hover { background: var(--red-bg); border-color: var(--red); color: var(--red); }
-.tf-btn.selected-true { background: var(--green-bg); border-color: var(--green); color: var(--green); }
-.tf-btn.selected-false { background: var(--red-bg); border-color: var(--red); color: var(--red); }
-.tf-btn.correct-flash { animation: correctPulse .6s ease; }
-.tf-btn.wrong-flash { animation: wrongPulse .6s ease; }
-@keyframes correctPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
-@keyframes wrongPulse { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
-.tf-explanation { display: none; margin-top: 12px; padding: 12px 14px; border-radius: var(--radius-xs); font-size: 13px; line-height: 1.65; }
-.tf-explanation.show { display: block; }
-.tf-exp-correct { background: var(--green-bg); color: var(--text); border-left: 3px solid var(--green); }
-.tf-exp-wrong { background: var(--red-bg); color: var(--text); border-left: 3px solid var(--red); }
-
-/* DISCUSSION */
-.disc-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 12px;
-}
-.disc-reveal-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: 1px solid var(--border2);
-  color: var(--text2);
-  border-radius: var(--radius-xs);
-  padding: 8px 16px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all .15s;
-  margin-top: 14px;
-}
-.disc-reveal-btn:hover { background: var(--card2); color: var(--text); }
-.disc-answer {
-  display: none;
-  margin-top: 12px;
-  padding: 16px;
-  background: var(--bg3);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  font-size: 13.5px;
-  line-height: 1.75;
-  color: var(--text2);
-}
-.disc-answer.show { display: block; }
-.disc-answer strong { color: var(--text); }
-.disc-answer .ar-part { direction: rtl; text-align: right; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); color: var(--text3); }
-
-/* ===== TOOLS TABLE ===== */
-.tools-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-.tools-table th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid var(--border); background: var(--bg3); }
-.tools-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
-.tools-table tr:last-child td { border-bottom: none; }
-.tools-table tr:hover td { background: var(--bg3); }
-code { font-family: var(--font-mono); font-size: 12px; background: var(--card2); color: var(--teal); padding: 2px 6px; border-radius: 4px; }
-
-/* ===== BADGES ===== */
-.badge { display: inline-block; border-radius: 99px; padding: 2px 9px; font-size: 11px; font-weight: 700; letter-spacing: .04em; }
-.badge-teal { background: var(--teal-bg); color: var(--teal); }
-.badge-red { background: var(--red-bg); color: var(--red); }
-.badge-blue { background: var(--blue-bg); color: var(--blue); }
-.badge-amber { background: var(--amber-bg); color: var(--amber); }
-.badge-purple { background: var(--purple-bg); color: var(--purple); }
-.badge-green { background: var(--green-bg); color: var(--green); }
-
-/* ===== CHEAT SHEET ===== */
-.cheat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-.cheat-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 14px;
-}
-.cheat-title { font-size: 12px; font-weight: 700; color: var(--teal); font-family: var(--font-mono); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .06em; }
-.cheat-body { font-size: 13px; color: var(--text2); line-height: 1.7; }
-.cheat-body .ar { direction: rtl; display: block; color: var(--text3); margin-top: 4px; font-size: 12px; }
-
-.must-know { display: flex; flex-direction: column; gap: 8px; }
-.must-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  background: var(--red-bg);
-  border: 1px solid rgba(248,113,113,0.15);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-}
-.must-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-.must-text { font-size: 13.5px; color: var(--text); line-height: 1.65; }
-.must-ar { font-size: 12px; color: var(--text3); direction: rtl; display: block; margin-top: 4px; }
-
-/* ===== PROGRESS SUMMARY ===== */
-.progress-page {}
-.score-card {
-  background: linear-gradient(135deg, var(--teal-bg) 0%, var(--blue-bg) 100%);
-  border: 1px solid rgba(45,212,191,0.2);
-  border-radius: var(--radius);
-  padding: 32px;
-  text-align: center;
-  margin-bottom: 24px;
-}
-.score-big { font-size: 64px; font-weight: 900; color: var(--teal); }
-.score-label { font-size: 14px; color: var(--text2); }
-.progress-breakdown { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-.pb-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; text-align: center; }
-.pb-val { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
-.pb-label { font-size: 12px; color: var(--text3); }
-.reset-btn {
-  background: var(--red-bg);
-  border: 1px solid rgba(248,113,113,0.2);
-  color: var(--red);
-  border-radius: var(--radius-sm);
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .15s;
-}
-.reset-btn:hover { background: rgba(248,113,113,0.2); }
 
 /* ===== MOBILE HEADER ===== */
 .mobile-header {
@@ -599,6 +343,7 @@ code { font-family: var(--font-mono); font-size: 12px; background: var(--card2);
   align-items: center;
   gap: 12px;
 }
+
 .hamburger { background: none; border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 6px 10px; color: var(--text); cursor: pointer; font-size: 16px; }
 .mobile-title { font-size: 14px; font-weight: 700; color: var(--text); }
 .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 200; }
@@ -606,12 +351,10 @@ code { font-family: var(--font-mono); font-size: 12px; background: var(--card2);
 .sidebar.mobile-open { transform: translateX(0) !important; z-index: 300; }
 
 @media (max-width: 900px) {
-  .grid2, .grid3, .bilingual, .scenario-grid, .cheat-grid, .progress-breakdown { grid-template-columns: 1fr; }
+  .grid2, .grid3, .bilingual { grid-template-columns: 1fr; }
   .bi-en { border-right: none; border-bottom: 1px solid var(--border); }
-  .pipeline { flex-direction: column; }
-  .pipe-stage { border-right: none; border-bottom: 1px solid var(--border); }
-  .pipe-stage:last-child { border-bottom: none; }
 }
+
 @media (max-width: 768px) {
   .layout { flex-direction: column; }
   .sidebar {
@@ -637,7 +380,12 @@ code { font-family: var(--font-mono); font-size: 12px; background: var(--card2);
 </head>
 <body>
 
-<div class="mobile-overlay id="overlay" onclick="closeSidebar()"></div>
+<div class="mobile-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- THEME TOGGLE BUTTON -->
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+  <span id="themeIcon">🌙</span>
+</button>
 
 <div class="layout">
 <!-- SIDEBAR -->
@@ -650,50 +398,20 @@ code { font-family: var(--font-mono); font-size: 12px; background: var(--card2);
 
   <div class="nav-section">
     <div class="nav-section-label">Material</div>
-    <button class="nav-item active" onclick="showPage('home', this)">
-      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m0 0l7-7 7 7M19 10v10a1 1 0 001 1h3M9 20h6a2 2 0 002-2V9m-6 4h4m-4 0h.01M9 12h4m0 4H9m6 0h.01"/></svg>
-      Overview
-    </button>
-    <button class="nav-item" onclick="showPage('ch1', this)">
-      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-      Chapter 1 — Intro CI
-    </button>
-    <button class="nav-item" onclick="showPage('ch2', this)">
-      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 2.502-3.5 0-2.364-1.657-2.586-1.657-2.586.5-1.379.33-4.644-.969-6.479-.868-1.385-2.109-1.435-2.109-1.435s1.25.007 2.59.723c1.923 1.028 3.168 1.27 3.168 1.27.375 0 .552-.376.552-.376s.692-1.338-1.169-2.07c-.381-.165-.528-.271-.596-.271-.068 0-.148.101-.209.171-.577.627-1.876 1.968-2.882 2.181-.316.062-.704.062-1.062 0m-2.4.586a.5.5 0 11-1 0 .5.5 0 011 0m5 0a.5.5 0 11-1 0 .5.5 0 011 0"/></svg>
-      Chapter 2 — Risks
-    </button>
-    <button class="nav-item" onclick="showPage('ch3', this)">
-      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 9m0 13V9m0 0L9 5"/></svg>
-      Chapter 3 — Pipeline
-    </button>
-    <button class="nav-item" onclick="showPage('ch4', this)">
-      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-      Chapter 4 — Testing
-    </button>
-    <button class="nav-item" onclick="showPage('cheat', this)">
-      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-      Cheat Sheet
-    </button>
+    <button class="nav-item active" onclick="showPage('home', this)">📖 Overview</button>
+    <button class="nav-item" onclick="showPage('ch1', this)">⚡ Chapter 1 — Intro CI</button>
+    <button class="nav-item" onclick="showPage('ch2', this)">⚠️ Chapter 2 — Risks</button>
+    <button class="nav-item" onclick="showPage('ch3', this)">🔄 Chapter 3 — Pipeline</button>
+    <button class="nav-item" onclick="showPage('ch4', this)">✅ Chapter 4 — Testing</button>
+    <button class="nav-item" onclick="showPage('cheat', this)">📝 Cheat Sheet</button>
   </div>
 
   <div class="nav-section">
     <div class="nav-section-label">Practice — 50 Questions</div>
-    <button class="nav-item" onclick="showPage('fib', this)">
-      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-      Fill in the Blanks (20Q)
-    </button>
-    <button class="nav-item" onclick="showPage('tf', this)">
-      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-1.946c.486.063.751.652.751 1.688 0 1.272-.714 2.237-1.697 2.257-.188.02-.374-.01-.565-.05A3.42 3.42 0 007.835 4.697z"/></svg>
-      True / False (15Q)
-    </button>
-    <button class="nav-item" onclick="showPage('disc', this)">
-      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-      Discussion (15Q)
-    </button>
-    <button class="nav-item" onclick="showPage('progress', this)">
-      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-      My Progress
-    </button>
+    <button class="nav-item" onclick="showPage('fib', this)">✏️ Fill in the Blanks (20Q)</button>
+    <button class="nav-item" onclick="showPage('tf', this)">✔️ True / False (15Q)</button>
+    <button class="nav-item" onclick="showPage('disc', this)">💬 Discussion (15Q)</button>
+    <button class="nav-item" onclick="showPage('progress', this)">📊 My Progress</button>
   </div>
 
   <div class="sidebar-footer">
@@ -745,25 +463,152 @@ code { font-family: var(--font-mono); font-size: 12px; background: var(--card2);
   </div>
 
   <div class="alert alert-amber">
-    <strong>⚡ Exam tip:</strong> Questions will be Fill in the Blanks, True/False, and Discussion. Focus on the 7 practices, 4 risks, tool names (CruiseControl, JUnit, Checkstyle, JDepend, Doxygen), and pipeline reliability math.
+    <strong>⚡ Exam tip:</strong> Questions will be Fill in the Blanks, True/False, and Discussion. Focus on the 7 practices, 4 risks, tool names (CruiseControl, JUnit, Checkstyle, JDepend, Doxygen).
     <br><strong>نصيحة:</strong> الاختبار سيحتوي على ملء الفراغات، صح وخطأ، وأسئلة نقاش. ركّز على الممارسات السبع والمخاطر الأربع.
   </div>
 </div>
 
-<!-- The rest of the HTML content continues the same as before -->
-<!-- Keeping all other pages and JavaScript functionality intact -->
+<!-- ==================== CHAPTERS ==================== -->
+<div id="page-ch1" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Chapter 1</div>
+    <div class="section-title">Introducing Continuous Integration</div>
+    <div class="section-sub">المصطلحات الأساسية · الممارسات السبع · قيمة CI</div>
+  </div>
+  <p style="color:var(--text2);margin-bottom:20px">CI is a software development practice where members of a team integrate their work frequently. This chapter covers key terms, 7 core practices, and 5 values of CI.</p>
+</div>
+
+<div id="page-ch2" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Chapter 2</div>
+    <div class="section-title">Reducing Risks Using CI</div>
+    <div class="section-sub">4 مخاطر رئيسية · سيناريوهات حقيقية · حلول · أدوات</div>
+  </div>
+  <p style="color:var(--text2);margin-bottom:20px">This chapter explores 4 major risks: (1) Lack of Deployable Software, (2) Late Discovery of Defects, (3) Lack of Project Visibility, (4) Low-Quality Software.</p>
+</div>
+
+<div id="page-ch3" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Chapter 3</div>
+    <div class="section-title">The Deployment Pipeline</div>
+    <div class="section-sub">مراحل النشر · الموازنة · موثوقية النظام · المبادئ الخمسة</div>
+  </div>
+  <p style="color:var(--text2);margin-bottom:20px">The deployment pipeline is an automated manifestation of your process for getting software from version control into production. It balances confidence with feedback speed.</p>
+</div>
+
+<div id="page-ch4" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Chapter 4</div>
+    <div class="section-title">Testing Automation</div>
+    <div class="section-sub">اختبار الوحدات · اختبار المكونات · اختبارات النظام</div>
+  </div>
+  <p style="color:var(--text2);margin-bottom:20px">This chapter covers Unit, Component, and System tests, the developer's perspective limitation, and the automation trade-off equation.</p>
+</div>
+
+<div id="page-cheat" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Quick Reference</div>
+    <div class="section-title">Cheat Sheet</div>
+  </div>
+  <div class="card">
+    <h3 style="color:var(--text);margin-bottom:10px">7 CI Practices</h3>
+    <p style="color:var(--text2);font-size:13px">1. Commit Frequently · 2. Don't Commit Broken Code · 3. Fix Broken Builds Immediately · 4. Write Automated Tests · 5. All Tests Must Pass · 6. Run Private Builds · 7. Avoid Getting Broken Code</p>
+  </div>
+  <div class="card">
+    <h3 style="color:var(--text);margin-bottom:10px">4 CI Values</h3>
+    <p style="color:var(--text2);font-size:13px">1. Reduce Risks · 2. Reduce Repetition · 3. Deployable Software · 4. Better Visibility · 5. Greater Confidence</p>
+  </div>
+</div>
+
+<!-- ==================== PRACTICE SECTIONS ==================== -->
+<div id="page-fib" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Practice</div>
+    <div class="section-title">Fill in the Blanks (20 Questions)</div>
+  </div>
+  <div class="card">
+    <p style="color:var(--text2);margin-bottom:15px">Continuous Integration (CI) is a practice where team members integrate their work <strong>frequently</strong>, usually at least <input type="text" class="blank-input" placeholder="once per day"> times per day.</p>
+  </div>
+  <div class="card">
+    <p style="color:var(--text2);margin-bottom:15px">The <input type="text" class="blank-input" placeholder="private build"> is running a build locally before committing to VCS to reduce breaking the integration build.</p>
+  </div>
+</div>
+
+<div id="page-tf" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Practice</div>
+    <div class="section-title">True / False (15 Questions)</div>
+  </div>
+  <div class="card">
+    <p style="color:var(--text);margin-bottom:15px"><strong>Q1:</strong> Continuous Integration means continuous compilation of code.</p>
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <button style="padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;cursor:pointer">True</button>
+      <button style="padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;cursor:pointer">False</button>
+    </div>
+  </div>
+</div>
+
+<div id="page-disc" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Practice</div>
+    <div class="section-title">Discussion Questions (15 Questions)</div>
+  </div>
+  <div class="card">
+    <p style="color:var(--text);margin-bottom:15px"><strong>Q1:</strong> What are the 7 core practices of Continuous Integration? Explain each one in 2-3 sentences.</p>
+    <textarea style="width:100%;padding:10px;border:1px solid var(--border);border-radius:5px;background:var(--bg3);color:var(--text);font-family:var(--font);min-height:100px" placeholder="Type your answer here..."></textarea>
+  </div>
+</div>
+
+<div id="page-progress" class="page">
+  <div class="section-header">
+    <div class="section-eyebrow">Performance</div>
+    <div class="section-title">My Progress</div>
+  </div>
+  <div class="card" style="text-align:center;padding:30px">
+    <div style="font-size:48px;font-weight:900;color:var(--teal);margin-bottom:10px" id="progress-score">0</div>
+    <p style="color:var(--text2);margin-bottom:20px">Questions Completed / 50</p>
+    <div style="height:8px;background:var(--bg3);border-radius:4px;overflow:hidden">
+      <div id="progress-bar" style="height:100%;width:0%;background:linear-gradient(to right, var(--teal), var(--blue));transition:width 0.3s"></div>
+    </div>
+  </div>
+</div>
 
 </main>
 </div>
 
 <script>
+// Theme Toggle Function
+function toggleTheme() {
+  const html = document.documentElement;
+  const themeIcon = document.getElementById('themeIcon');
+  
+  if (html.classList.contains('dark-mode')) {
+    html.classList.remove('dark-mode');
+    themeIcon.textContent = '🌙';
+    localStorage.setItem('theme', 'light');
+  } else {
+    html.classList.add('dark-mode');
+    themeIcon.textContent = '☀️';
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+// Load theme preference on page load
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark-mode');
+    document.getElementById('themeIcon').textContent = '☀️';
+  }
+});
+
+// Page Navigation
 function showPage(pageId, element) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + pageId).classList.add('active');
   if (element) element.classList.add('active');
   closeSidebar();
-  updateProgress();
 }
 
 function openSidebar() {
@@ -774,13 +619,6 @@ function openSidebar() {
 function closeSidebar() {
   document.getElementById('sidebar').classList.remove('mobile-open');
   document.getElementById('overlay').classList.remove('show');
-}
-
-function updateProgress() {
-  let total = 50;
-  let answered = document.querySelectorAll('.fib-card input[value], .tf-btn.selected-true, .tf-btn.selected-false').length;
-  document.getElementById('sidebar-score').textContent = answered;
-  document.getElementById('global-progress').style.width = (answered / total * 100) + '%';
 }
 
 window.addEventListener('resize', () => {
